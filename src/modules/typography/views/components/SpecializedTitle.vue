@@ -6,7 +6,7 @@
         <span class="title block">Heading</span>
       </div>
       <div class="md:w-3/4">
-        <h3 class="heading">Argon Dashboard</h3>
+        <h3 class="heading">Nha Be Hospital Dashboard</h3>
       </div>
     </div>
     <!-- Heading title -->
@@ -15,7 +15,7 @@
         <span class="title block">Heading Title</span>
       </div>
       <div class="md:w-3/4">
-        <h2 class="heading-title text-warning">Argon Dashboard</h2>
+        <h2 class="heading-title text-warning">Nha Be Hospital Dashboard</h2>
       </div>
     </div>
 

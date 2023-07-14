@@ -71,7 +71,7 @@ export default defineComponent({
     const tableData: Project[] = [
       {
         projectLogoPath: Logo_Url,
-        project: 'Argon Design System',
+        project: 'Nha Be Hospital Design System',
         budget: '2500 ',
         status: 'pending',
         users: usersData,
@@ -79,7 +79,7 @@ export default defineComponent({
       },
       {
         projectLogoPath: Logo_Url,
-        project: 'Argon Design System',
+        project: 'Nha Be Hospital Design System',
         budget: '4000 ',
         status: 'completed',
         users: usersData,
@@ -87,7 +87,7 @@ export default defineComponent({
       },
       {
         projectLogoPath: Logo_Url,
-        project: 'Argon',
+        project: 'Nha Be Hospital',
         budget: '2500 ',
         status: 'delayed',
         users: usersData,
@@ -95,7 +95,7 @@ export default defineComponent({
       },
       {
         projectLogoPath: Logo_Url,
-        project: 'Argon Design',
+        project: 'Nha Be Hospital Design',
         budget: '3300 ',
         status: 'on schedule',
         users: usersData,
@@ -103,7 +103,7 @@ export default defineComponent({
       },
       {
         projectLogoPath: Logo_Url,
-        project: 'Argon System',
+        project: 'Nha Be Hospital System',
         budget: '3000 ',
         status: 'completed',
         users: usersData,

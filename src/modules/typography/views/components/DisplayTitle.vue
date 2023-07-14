@@ -6,7 +6,7 @@
         <span class="title block">Display 1</span>
       </div>
       <div class="md:w-3/4">
-        <h1 class="display-1">Argon Dashboard</h1>
+        <h1 class="display-1">Nha Be Hospital Dashboard</h1>
       </div>
     </div>
     <!-- Display 2 -->
@@ -15,7 +15,7 @@
         <span class="title block">Display 2</span>
       </div>
       <div class="md:w-3/4">
-        <h2 class="display-2">Argon Dashboard</h2>
+        <h2 class="display-2">Nha Be Hospital Dashboard</h2>
       </div>
     </div>
     <!-- Heading 3 -->
@@ -24,7 +24,7 @@
         <span class="title block">Display 3</span>
       </div>
       <div class="md:w-3/4">
-        <h3 class="display-3">Argon Dashboard</h3>
+        <h3 class="display-3">Nha Be Hospital Dashboard</h3>
       </div>
     </div>
     <!-- Heading 4 -->
@@ -33,7 +33,7 @@
         <span class="title block">Display 4</span>
       </div>
       <div class="md:w-3/4">
-        <h4 class="display-4">Argon Dashboard</h4>
+        <h4 class="display-4">Nha Be Hospital Dashboard</h4>
       </div>
     </div>
   </div>

@@ -1,15 +1,17 @@
 <template>
   <el-config-provider :zIndex="9999">
-    <AuthLayout v-if="isAuthLayout" />
+    <ReportLayout v-if="isReportLayout" />
+    <AuthLayout v-else-if="isAuthLayout" />
     <DefaultLayout v-else />
   </el-config-provider>
 </template>
 
 <script lang="ts">
-import { defineComponent, inject, computed } from 'vue'
+import { defineComponent, inject, computed, ComputedRef } from 'vue'
 import { ElConfigProvider } from 'element-plus'
 import DefaultLayout from './layouts/default-layout.vue'
 import AuthLayout from 'layouts/auth-layout.vue'
+import ReportLayout from "layouts/report-layout.vue";
 import { useRoute } from 'vue-router'
 
 export default defineComponent({
@@ -17,6 +19,7 @@ export default defineComponent({
     DefaultLayout,
     ElConfigProvider,
     AuthLayout,
+    ReportLayout
   },
   inheritAttrs: false,
 
@@ -24,6 +27,7 @@ export default defineComponent({
     const $message = inject<IMessage>('$message')
     const router = useRoute()
     const isAuthLayout = computed(() => !router.meta?.requiresAuth)
+    const isReportLayout: ComputedRef<boolean> = computed(() => router.meta?.layout === 'report')
     const initialize = () => {
       return Promise.resolve()
     }
@@ -31,7 +35,7 @@ export default defineComponent({
       $message?.error(`Couldn't initialize the system with error: ${error.message}`)
     })
 
-    return { zIndex: 3000, size: 'small', isAuthLayout }
+    return { zIndex: 3000, size: 'small', isAuthLayout , isReportLayout}
   },
 })
 </script>
