@@ -1,0 +1,47 @@
+[
+  {
+    "value": "voluntary",
+    "label": "Tự nguyện",
+    "children": [
+      {
+        "label": "NC0 (Chưa xảy ra)",
+        "children": [
+          {
+            "label": "Tình huống có nguy cơ gây ra sự cố (near miss)",
+            "value": "Tình huống có nguy cơ gây ra sự cố (near miss)"
+          }
+        ]
+      },
+      {
+        "label": "NC1 (Tổn thương nhẹ)",
+        "children": [
+          {
+            "label": "Sự cố đã xảy ra, chưa tác động trực tiếp đến người bệnh (B)",
+            "value": "Sự cố đã xảy ra, chưa tác động trực tiếp đến người bệnh (B)"
+          },
+          {
+            "label": "Sự cố đã xảy ra tác động trực tiếp đến người bệnh, chưa gây nguy hại (C)",
+            "value": "Sự cố đã xảy ra tác động trực tiếp đến người bệnh, chưa gây nguy hại (C)"
+          },
+          {
+            "label": "Sự cố đã xảy ra tác động trực tiếp đến người bệnh, cần phải theo dõi hoặc đã can thiệp điều trị kịp thời nên không gây nguy hại (D)",
+            "value": "Sự cố đã xảy ra tác động trực tiếp đến người bệnh, cần phải theo dõi hoặc đã can thiệp điều trị kịp thời nên không gây nguy hại (D)"
+          }
+        ]
+      },
+      {
+        "label": "NC2 (Tổn thương trung bình)",
+        "children": [
+          {
+            "label": "Sự cố đã xảy ra gây nguy hại tạm thời và cần phải can thiệp điều trị (E)",
+            "value": "Sự cố đã xảy ra gây nguy hại tạm thời và cần phải can thiệp điều trị (E)"
+          },
+          {
+            "label": "Sự cố đã xảy ra, gây nguy hại tạm thời, cần phải can thiệp điều trị và kéo dài thời gian nằm viện (F)",
+            "value": "Sự cố đã xảy ra, gây nguy hại tạm thời, cần phải can thiệp điều trị và kéo dài thời gian nằm viện (F)"
+          }
+        ]
+      }
+    ]
+  }
+]

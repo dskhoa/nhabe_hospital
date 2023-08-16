@@ -30,7 +30,7 @@ const routes = [
     component: CreateReport,
     name: 'Create Report',
     meta: {
-      requiresAuth: false,
+      requiresAuth: true,
       parentPath: 'Home',
       layout: 'report'
     }
@@ -61,24 +61,23 @@ const routes = [
       parentPath: 'Home'
     },
   },
+  // {
+  //   path: '/register',
+  //   component: Register,
+  //   name: 'register',
+  //   meta: {
+  //     requiresAuth: false,
+  //   },
+  // },
+  // {
+  //   path: '/forgot-password',
+  //   component: ForgotPassword,
+  //   name: 'forgot-password',
+  //   meta: {
+  //     requiresAuth: false,
+  //   },
+  // },
   {
-    path: '/register',
-    component: Register,
-    name: 'register',
-    meta: {
-      requiresAuth: false,
-    },
-  },
-  {
-    path: '/forgot-password',
-    component: ForgotPassword,
-    name: 'forgot-password',
-    meta: {
-      requiresAuth: false,
-    },
-  },
-  {
-
     path: '/login',
     component: Login,
     name: 'login',

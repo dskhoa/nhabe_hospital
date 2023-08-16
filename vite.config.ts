@@ -20,6 +20,11 @@ export default defineConfig({
       resolvers: [ElementPlusResolver({ importStyle: 'sass' })],
     }),
   ],
+  server: {
+    watch: {
+      usePolling: true,
+    }
+  },
   resolve: {
     alias: {
       assets: resolvePath('assets'),

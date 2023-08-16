@@ -1,0 +1,30 @@
+[
+  {
+    "value": "required",
+    "label": "Bắt buộc",
+    "children": [
+      {
+        "label": "NC3 (Tổn thương nặng)",
+        "children": [
+          {
+            "label": "Theo diễn biến tình huống",
+            "children": [
+              {
+                "label": "Sự cố đã xảy ra gây nguy hại kéo dài, để lại di chứng (G)",
+                "value": "Sự cố đã xảy ra gây nguy hại kéo dài, để lại di chứng (G)"
+              },
+              {
+                "label": "Sự cố đã xảy ra gây nguy hại cần phải hồi sức tích cực (H)",
+                "value": "Sự cố đã xảy ra gây nguy hại cần phải hồi sức tích cực (H)"
+              },
+              {
+                "label": "Sự cố đã xảy ra có ảnh hưởng hoặc trực tiếp gây tử vong (I)",
+                "value": "Sự cố đã xảy ra có ảnh hưởng hoặc trực tiếp gây tử vong (I)"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]

@@ -1,6 +1,6 @@
 <template>
   <el-scrollbar
-    class="relative w-full bg-default overflow-y-auto h-screen"
+    class="relative w-full overflow-y-auto h-screen"
     v-loading.fullscreen.lock="loading"
   >
     <div class="relative">

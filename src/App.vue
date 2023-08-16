@@ -1,7 +1,7 @@
 <template>
   <el-config-provider :zIndex="9999">
-    <ReportLayout v-if="isReportLayout" />
-    <AuthLayout v-else-if="isAuthLayout" />
+    <AuthLayout v-if="isAuthLayout" />
+    <ReportLayout v-else-if="isReportLayout" />
     <DefaultLayout v-else />
   </el-config-provider>
 </template>
@@ -12,7 +12,7 @@ import { ElConfigProvider } from 'element-plus'
 import DefaultLayout from './layouts/default-layout.vue'
 import AuthLayout from 'layouts/auth-layout.vue'
 import ReportLayout from "layouts/report-layout.vue";
-import { useRoute } from 'vue-router'
+import {useRoute} from 'vue-router'
 
 export default defineComponent({
   components: {
