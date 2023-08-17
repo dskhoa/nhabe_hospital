@@ -4,14 +4,14 @@ export interface ReportState {
   form: ReportsForm;
   unit: string;
   client_fullname: string;
-  client_birthdate: Date;
+  client_birthdate: string;
   client_medical_record_id: string;
   client_gender: Genders;
   department: string;
   subject_incident: IncidentSubjects;
   incident_location: string;
   exact_location: string;
-  issued_date: Date;
+  issued_date: string;
   short_description: string;
   proposal_solution: string;
   performed_treatment: string;
@@ -24,10 +24,10 @@ export interface ReportState {
   reporter: string; // Assuming user_id is of type string
   observer_1: string;
   observer_2: string;
-  title: string;
+  title: string[];
   status: string;
-  created_at: Date;
-  updated_at: Date;
+  created_at: string;
+  updated_at: string;
 }
 
 export interface AnalysisState {
@@ -49,37 +49,37 @@ export interface AnalysisState {
   updated_at: Date;
 }
 
-enum ReportsForm {
+export enum ReportsForm {
   Voluntary = "Voluntary",
   Required = "Required"
 
   // Define the structure of the reports_form object if needed
 }
 
-enum Genders {
+export enum Genders {
   Male = "male",
   Female = "female"
 }
 
-enum IncidentSubjects {
+export enum IncidentSubjects {
   Client = "client",
   Visitor = "visitor",
   Staff = "staff",
   Infrastructure = "infrastructure"
 }
 
-enum BooleanChoices {
+export enum BooleanChoices {
   Yes = "yes",
   No = "no",
   NotAcknowledged = "not_acknowledged"
 }
 
-enum IncidentClassification {
+export enum IncidentClassification {
   Happen = "happen",
   NotHappen = "not_happen"
 }
 
-enum ImpactAssessment {
+export enum ImpactAssessment {
   Hard = "hard",
   Medium = "medium",
   Light = "light"
