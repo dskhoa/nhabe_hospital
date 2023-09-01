@@ -312,7 +312,7 @@ import {
 import { MenuIcon, MenuAlt1Icon, SearchIcon, SearchCircleIcon } from '@heroicons/vue/outline'
 import useStore from 'store'
 import { useRoute } from 'vue-router'
-import Logo_Url from '@/assets/images/ltv_logo.png'
+import Logo_Url from '@/assets/images/nhabe_logo.png'
 import John_Snow_Url from '@/assets/images/John_Snow.png'
 export default defineComponent({
   name: 'DefaultNav',

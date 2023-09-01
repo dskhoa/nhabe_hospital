@@ -1,50 +1,70 @@
 import {
   HomeIcon,
   UserIcon,
-  DocumentReportIcon
+  DocumentReportIcon,
+  ChartBarIcon,
 } from '@heroicons/vue/outline'
+import ProjectTable from 'modules/table/views/components/ProjectTable.vue'
 
 const Login = () => import('modules/auth/views/login.vue')
-const Register = () => import('modules/auth/views/register.vue')
-const ForgotPassword = () => import('modules/auth/views/forgot-password.vue')
 const NotFound = () => import('modules/pages/views/404.vue')
 const Dashboard = () => import('modules/dashboard/views/index.vue')
 const Profile = () => import('modules/profile/views/index.vue')
 const Reports = () => import('modules/reports/views/index.vue')
-
 const CreateReport = () => import('modules/reports/views/components/create-report.vue')
+const ReportsTable = () => import('modules/table/views/index.vue')
 
 
 const routes = [
   {
     path: '/',
+    redirect: '/reports',
+    meta: {
+      requiresAuth: false,
+    },
+  },
+  {
+    path: '/reports',
     component: Reports,
     name: 'Reports',
     meta: {
+      title: 'Báo cáo',
       requiresAuth: false,
-      layout: 'report'
-    }
+      layout: 'report',
+      isReportLayout: true,
+    },
   },
   {
     path: '/create-report',
     component: CreateReport,
-    name: 'Create Report',
+    name: 'CreateReport',
     meta: {
-      requiresAuth: true,
-      parentPath: 'Home',
-      layout: 'report'
-    }
+      title: 'Tạo báo cáo',
+      requiresAuth: false,
+      layout: 'report',
+      isReportLayout: true,
+    },
   },
   {
     path: '/dashboard',
-    component: Dashboard,
+    component: ReportsTable,
     name: 'Dashboard',
     meta: {
+      title: 'Báo cáo',
+      icon: DocumentReportIcon,
+      color: 'text-warning-410',
+      requiresAuth: true,
+    },
+  },
+  {
+    path: '/statistic',
+    component: Dashboard,
+    name: 'Statistic',
+    meta: {
       title: 'Phân tích',
-      icon: HomeIcon,
+      icon: ChartBarIcon,
       color: 'text-indigo-410',
       requiresAuth: true,
-      parentPath: 'Home'
     },
   },
   {
@@ -58,25 +78,8 @@ const routes = [
       isDarkBackground: true,
       isFullWidthLayout: true,
       requiresAuth: true,
-      parentPath: 'Home'
     },
   },
-  // {
-  //   path: '/register',
-  //   component: Register,
-  //   name: 'register',
-  //   meta: {
-  //     requiresAuth: false,
-  //   },
-  // },
-  // {
-  //   path: '/forgot-password',
-  //   component: ForgotPassword,
-  //   name: 'forgot-password',
-  //   meta: {
-  //     requiresAuth: false,
-  //   },
-  // },
   {
     path: '/login',
     component: Login,
@@ -85,14 +88,14 @@ const routes = [
       requiresAuth: false,
     },
   },
-  {
-    path: '/:pathMatch(.*)*',
-    component: NotFound,
-    name: 'NotFound',
-    meta: {
-      requiresAuth: false,
-    },
-  },
+  // {
+  //   path: '/:pathMatch(.*)*',
+  //   component: NotFound,
+  //   name: 'NotFound',
+  //   meta: {
+  //     requiresAuth: false,
+  //   },
+  // },
 ]
 
 export default routes

@@ -1,3 +1,5 @@
+import {reactive, ref} from "vue";
+
 export interface ReportState {
   id: number;
   report_id: string;

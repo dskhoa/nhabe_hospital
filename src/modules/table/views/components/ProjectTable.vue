@@ -1,133 +1,96 @@
 <template>
-  <div class="w-full">
-    <el-table :data="tableData" style="width: 100%" :class="`is-${theme}`">
-      <el-table-column label="PROJECT" min-width="280">
-        <template #default="scope">
-          <div class="flex items-center">
-            <a
-              href="#"
-              class="inline-flex border border-slate-50 w-12 h-12 rounded-full bg-[#adb5bd] items-center justify-center"
-            >
-              <el-avatar :size="46" :src="scope.row.projectLogoPath" />
-            </a>
-            <span class="pl-5 mb-0 text-0.875 font-semibold cursor-auto">{{
-              scope.row.project
-            }}</span>
+  <div class='w-full'>
+    <el-table ref='tableRef' :class='`is-${theme}`' :data='tableData' row-key='date' stripe style='width: 100%'>
+      <el-table-column
+        :filter-method='filterHandler'
+        :filters=filterDateList
+        column-key='date'
+        fixed
+        label='Date'
+        prop='date'
+        sortable
+        width='180'
+      />
+      <el-table-column label='BÁO CÁO' min-width='280'>
+        <template #default='scope'>
+          <div class='flex items-center'>
+            <span class='pl-5 mb-0 text-0.875 font-semibold cursor-auto'>{{
+                scope.row.report
+              }}</span>
           </div>
         </template>
       </el-table-column>
-      <el-table-column label="BUDGET" min-width="130">
-        <template #default="scope">
-          <div class="px-4 cursor-auto">
-            <span class="text-0.8125 font-normal">${{ scope.row.budget }} USD</span>
+      <el-table-column :filter-method=filterHandler :filters=filterFormList column-key='form' label='LOẠI BÁO CÁO'
+                       prop='form'
+                       min-width='130'>
+        <template #default='scope'>
+          <div class='px-4 cursor-auto'>
+            <span class='text-0.8125 font-normal'>{{ scope.row.form }}</span>
           </div>
         </template>
       </el-table-column>
-      <el-table-column label="STATUS" min-width="167">
-        <template #default="scope">
-          <div class="px-4 flex items-center">
-            <i
-              class="w-1.5 h-1.5 rounded-full"
-              aria-hidden="true"
-              :class="[
-                scope.row.status == 'on schedule'
-                  ? 'bg-info'
-                  : scope.row.status == 'delayed'
+      <el-table-column :filter-method='filterHandler' :filters=filterStatusList column-key='status' prop='status'
+                       filter-placement='bottom-end'
+                       label='TRẠNG THÁI'
+                       min-width='167'>
+        <template #default='scope'>
+          <el-tag :type="
+                  scope.row.status === 'từ chối'
+                  ? 'danger'
+                  : scope.row.status === 'đang xử lý'
+                  ? 'warning'
+                  : 'success'
+              " effect='plain'>
+            <div class='px-4 flex items-center'>
+              <i
+                :class="[
+                  scope.row.status === 'từ chối'
                   ? 'bg-danger'
-                  : scope.row.status == 'pending'
+                  : scope.row.status === 'đang xử lý'
                   ? 'bg-warning'
                   : 'bg-success',
               ]"
-            ></i>
-            <span class="ml-2 pb-0.5 text-0.875 font-normal">{{ scope.row.status }}</span>
-          </div>
+                aria-hidden='true'
+                class='w-2.5 h-2.5 rounded-full'
+              ></i>
+              <span class='ml-2 pb-0.5 text-0.875 font-normal'>{{ scope.row.status }}</span>
+            </div>
+          </el-tag>
         </template>
       </el-table-column>
-      <el-table-column label="USERS" min-width="155">
-        <template #default="scope">
-          <div class="px-4 flex items-center">
-            <div class="flex justify-center -space-x-3">
-              <div
-                v-for="(value, index) in scope.row.users"
-                :key="index"
-                class="relative hover:z-10"
-                :class="'z-' + index"
-              >
-                <el-popover
-                  placement="top"
-                  :width="10"
-                  trigger="hover"
-                  :content="value.name"
-                  effect="dark"
-                  popper-class="ava-column-popper"
-                >
-                  <template #reference>
-                    <el-avatar
-                      :size="38"
-                      class="cursor-pointer border-2 rounded-full border-white"
-                      :src="value.avatarPath"
-                    />
-                  </template>
-                </el-popover>
-              </div>
+      <el-table-column :filter-method=filterHandler :filters='filterReporterList' column-key='reporter'
+                       label='NGƯỜI BÁO CÁO'
+                       prop='reporter'
+                       min-width='155'>
+        <template #default='scope'>
+          <div class='px-4 flex items-center'>
+            <div class='flex justify-center -space-x-3'>
+              {{ scope.row.reporter }}
             </div>
           </div>
         </template>
       </el-table-column>
-      <el-table-column label="COMPLETION" min-width="200">
-        <template #default="scope">
-          <div class="px-4 flex flex-row items-center">
-            <div>
-              <span class="text-0.8125">{{ scope.row.completion }}%</span>
-            </div>
-            <div class="w-2/4 ml-2">
-              <el-progress
-                :percentage="scope.row.completion"
-                :show-text="false"
-                :color="customColorMethod(scope.row.status)"
-              />
-            </div>
-          </div>
+      <el-table-column fixed='right' label='THAO TÁC' width='200'>
+        <template #default='scope'>
+          <el-button link size='small' type='primary'>Chi tiết
+          </el-button
+          >
+          <el-button v-show="scope.row.form === 'Bắt buộc'" link size='small' type='primary' @click='openAnalyticForm'>
+            Tạo phân
+            tích
+          </el-button>
         </template>
-      </el-table-column>
-      <el-table-column width="60" fixed="right">
-        <div class="text-center h-12 pt-2.5">
-          <el-dropdown placement="bottom-end" trigger="click" popper-class="action-column-popper">
-            <el-button class="w-5 h-7 border-none bg-transparent hover:shadow-md" plain>
-              <div class="flex items-center space-x-2 2xl:space-x-4 text-black px-5">
-                <DotsVerticalIcon class="cursor-pointer h-5 w-5 text-[#ced4da] font-extrabold" />
-              </div>
-            </el-button>
-            <template #dropdown>
-              <el-dropdown-menu class="my-0.5">
-                <el-dropdown-item class="mx-0 hover:bg-secondary text-zinc-800">
-                  <div class="flex items-center w-40 h-6">
-                    <span class="mb-0 text-sm font-normal">Action</span>
-                  </div>
-                </el-dropdown-item>
-
-                <el-dropdown-item class="mx-0 hover:bg-secondary text-zinc-800">
-                  <div class="flex items-center w-40 h-6">
-                    <span class="mb-0 text-sm font-normal">Another Action</span>
-                  </div>
-                </el-dropdown-item>
-
-                <el-dropdown-item class="mx-0 hover:bg-secondary text-zinc-800">
-                  <div class="flex items-center w-40 h-6">
-                    <span class="mb-0 text-sm font-normal">Something else here</span>
-                  </div>
-                </el-dropdown-item>
-              </el-dropdown-menu>
-            </template>
-          </el-dropdown>
-        </div>
       </el-table-column>
     </el-table>
   </div>
 </template>
-<script lang="ts">
+<script lang='ts'>
 import { defineComponent, ref } from 'vue'
 import { DotsVerticalIcon } from '@heroicons/vue/outline'
+import { ElLoading, TableColumnCtx, TableInstance } from 'element-plus'
+import { ReportDashboard } from '../index.vue'
+import { transformList } from 'utils/index'
+import { useRouter } from 'vue-router'
 
 export default defineComponent({
   name: 'ProjectTable',
@@ -145,7 +108,7 @@ export default defineComponent({
       default: 'light',
     },
   },
-  setup() {
+  setup(props) {
     const theme = ref([
       { status: 'on schedule', color: '#11CDEF' },
       { status: 'delayed', color: '#F5365C' },
@@ -154,8 +117,51 @@ export default defineComponent({
     const customColorMethod = (status: string) => {
       return theme.value.find((el: any) => el.status == status)?.color ?? '#2DCE89'
     }
+    const router = useRouter()
+    const tableRef = ref<TableInstance>()
+
+    const clearFilter = () => {
+      tableRef.value!.clearFilter()
+    }
+
+    const filterDateList = transformList(props.tableData, 'date')
+    console.log(`filterDateList`, filterDateList)
+    const filterStatusList = transformList(props.tableData, 'status')
+    const filterFormList = transformList(props.tableData, 'form')
+    const filterReporterList = transformList(props.tableData, 'reporter')
+
+    const filterHandler = (
+      value: string,
+      row: ReportDashboard,
+      column: TableColumnCtx<ReportDashboard>,
+    ) => {
+      console.log(column)
+      const property = column['property']
+      // @ts-ignore
+      return row[property] === value
+    }
+
+    const openAnalyticForm = () => {
+      const loading = ElLoading.service({
+        lock: true,
+        background: 'rgba(0, 0, 0, 0.7)',
+      })
+
+      setTimeout(() => {
+        loading.close()
+        router.push({ name: 'CreateReport', query: { reportForm: 'analytic' } })
+      }, 1500)
+    }
+
     return {
       customColorMethod,
+      filterDateList,
+      filterStatusList,
+      filterFormList,
+      filterReporterList,
+      clearFilter,
+      filterHandler,
+      openAnalyticForm,
     }
   },
 })

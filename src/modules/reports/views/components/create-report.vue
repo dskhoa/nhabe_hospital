@@ -1,498 +1,506 @@
 <template>
   <el-scrollbar
-    class="relative w-full bg-default overflow-y-auto h-screen "
+    class='relative w-full bg-default overflow-y-auto h-screen '
   >
-    <!--    <el-form :model="form" label-width="7vw" label-position="top" class="report-section" v-if="isAnalytic">-->
-    <!--      <el-row>-->
-    <!--        <el-col :span="12">-->
-    <!--          <div class="content-center grid align-middle justify-center items-center w-1/2 fixed h-screen">-->
-    <!--            <span class="text-3xl font-black align-bottom text-white">MẪU TÌM HIỂU VÀ PHÂN TÍCH SỰ CỐ</span>-->
-    <!--            <span class="text-1.1 italic font-thin text-white">(Ban hành kèm theo Quy trình số 01/QT-QLCL ngày 25/05/2020 của Bệnh viện huyện Nhà Bè)</span>-->
-    <!--          </div>-->
-    <!--        </el-col>-->
-    <!--        <el-col :span="12">-->
-    <!--          <el-tabs v-model="analyticTab" class="mt-2" type="border-card">-->
-    <!--            <el-tab-pane label="A. Cấp nhân viên" name="employee">-->
-    <!--              <div class="bg-gray-200 p-4 rounded-md space-y-2 mt-5 mb-5">-->
-    <!--                <el-card>-->
-    <!--                  <template #header>-->
-    <!--                    <div class="card-header flex justify-between">-->
-    <!--                      <h1>-->
-    <!--                        I. Mô tả chi tiết sự cố-->
-    <!--                      </h1>-->
-    <!--                      <div class="flex flex-row-reverse space-x-4 space-x-reverse">-->
-    <!--                        <el-input v-model="analyticForm.analysis_id" clearable class="w-full" placeholder="Số báo cáo"/>-->
-    <!--                      </div>-->
-    <!--                    </div>-->
-    <!--                  </template>-->
-    <!--                  <div class="card-header-description mt-2">-->
-    <!--                    <el-form-item label="Mô tả chi tiết sự cố">-->
-    <!--                      <el-input v-model="analyticForm.performed_treatment" type="textarea" class="mt-4 mb-4"-->
-    <!--                                placeholder="(Mô tả cả xử lý tức thời và hậu quả. Đối với loét tỳ đè, chỉ ra cụ thể vị trí, bên, phạm vi và tình trạng lúc nhập viện. Đối với sai sót về thuốc, liệt kê rõ tất cả thuốc (đính kèm thêm 1 tờ liệt kê nếu cần)"/>-->
-    <!--                    </el-form-item>-->
-    <!--                  </div>-->
-    <!--                </el-card>-->
-    <!--                <el-card>-->
-    <!--                  <template #header>-->
-    <!--                    <div class="card-header flex justify-between">-->
-    <!--                      <h1>-->
-    <!--                        II. Phân loại sự cố theo nhóm sự cố (Incident type)-->
-    <!--                      </h1>-->
-    <!--                    </div>-->
-    <!--                  </template>-->
-    <!--                  <div v-for="(incident, id) in finalIncidentTypeList" :key="incident">-->
-    <!--                    <el-form-item :label="`${id+1}. ${incident.title}`">-->
-    <!--                      <el-checkbox-group v-model="analyticForm.incident_type" :max="1" class="flex flex-col">-->
-    <!--                        <el-checkbox v-for="incident in incident.list" :label="incident"/>-->
-    <!--                      </el-checkbox-group>-->
-    <!--                    </el-form-item>-->
-    <!--                  </div>-->
-    <!--                </el-card>-->
-    <!--                <el-card>-->
-    <!--                  <template #header>-->
-    <!--                    <h1>-->
-    <!--                      III. Điều trị/y lệnh đã được thực hiện-->
-    <!--                    </h1>-->
-    <!--                  </template>-->
-    <!--                  <div class="card-header-description mt-2">-->
-    <!--                    <el-form-item label="Điều trị/y lệnh đã được thực hiện">-->
-    <!--                      <el-input v-model="analyticForm.treatment_executed" type="textarea" class="mt-4 mb-4"/>-->
-    <!--                    </el-form-item>-->
-    <!--                  </div>-->
-    <!--                </el-card>-->
-    <!--                <el-card>-->
-    <!--                  <template #header>-->
-    <!--                    <div class="card-header flex justify-between">-->
-    <!--                      <h1>-->
-    <!--                        IV. Phân loại sự cố theo nhóm nguyên nhân gây ra sự cố-->
-    <!--                      </h1>-->
-    <!--                    </div>-->
-    <!--                  </template>-->
-    <!--                  <div v-for="(incident, id) in finalReasonList" :key="incident">-->
-    <!--                    <el-form-item :label="`${id+1}. ${incident.title}`">-->
-    <!--                      <el-checkbox-group v-model="analyticForm.incident_type" :max="1" class="flex flex-col">-->
-    <!--                        <el-checkbox v-for="incident in incident.list" :label="incident"/>-->
-    <!--                      </el-checkbox-group>-->
-    <!--                    </el-form-item>-->
-    <!--                  </div>-->
-    <!--                </el-card>-->
-    <!--                <el-card>-->
-    <!--                  <template #header>-->
-    <!--                    <h1>-->
-    <!--                      V. Hành động khắc phục sự cố-->
-    <!--                    </h1>-->
-    <!--                  </template>-->
-    <!--                  <div class="card-header-description mt-2">-->
-    <!--                    <el-form-item label="Mô tả hành động xử lý sự cố">-->
-    <!--                      <el-input v-model="analyticForm.solution_executed" type="textarea" class="mt-4 mb-4"/>-->
-    <!--                    </el-form-item>-->
-    <!--                  </div>-->
-    <!--                </el-card>-->
-    <!--                <el-card>-->
-    <!--                  <template #header>-->
-    <!--                    <h1>-->
-    <!--                      VI. Đề xuất khuyến cáo phòng ngừa sự cố-->
-    <!--                    </h1>-->
-    <!--                  </template>-->
-    <!--                  <div class="card-header-description mt-2">-->
-    <!--                    <el-form-item label="Ghi đề xuất khuyến cáo phòng ngừa">-->
-    <!--                      <el-input v-model="analyticForm.solution_executed" type="textarea" class="mt-4 mb-4"/>-->
-    <!--                    </el-form-item>-->
-    <!--                  </div>-->
-    <!--                </el-card>-->
-    <!--                <div class="flex justify-items-end">-->
-    <!--                  <el-form-item class="justify-end">-->
-    <!--                    <el-button type="primary" @click="onSubmit">Create</el-button>-->
-    <!--                    <el-button>Cancel</el-button>-->
-    <!--                  </el-form-item>-->
-    <!--                </div>-->
-    <!--              </div>-->
-    <!--            </el-tab-pane>-->
-    <!--            <el-tab-pane label="B. Cấp quản lý" name="manager">-->
-    <!--              <div class="bg-gray-200 p-4 rounded-md space-y-2 mt-5 mb-5">-->
-    <!--                <el-card>-->
-    <!--                  <template #header>-->
-    <!--                    <div class="card-header flex justify-between">-->
-    <!--                      <h1>-->
-    <!--                        I. Đánh giá của Trưởng nhóm chuyên gia-->
-    <!--                      </h1>-->
-    <!--                    </div>-->
-    <!--                  </template>-->
-    <!--                  <div class="card-header-description mt-2">-->
-    <!--                    <el-form-item label="Mô tả chi tiết sự cố">-->
-    <!--                      <el-input v-model="analyticForm.group_leader_evaluation" type="textarea" class="mt-4 mb-4"-->
-    <!--                                placeholder="Mô tả kết quả phát hiện được (không lặp lại các mô tả sự cố)"/>-->
-    <!--                    </el-form-item>-->
-    <!--                    <el-row :gutter="10">-->
-    <!--                      <el-col :span="12">-->
-    <!--                        <el-card>-->
-    <!--                          <template #header class="sp">-->
-    <!--                            <div class="card-header">-->
-    <!--                              <h3>-->
-    <!--                                Đã thảo luận đưa khuyến cáo/hướng xử lý với người báo cáo-->
-    <!--                              </h3>-->
-    <!--                            </div>-->
-    <!--                          </template>-->
-    <!--                          <div class="flex flex-row-reverse space-x-4 space-x-reverse">-->
-    <!--                            <el-form-item>-->
-    <!--                              <el-checkbox-group v-model="analyticForm.is_aligned_with_reporter" :max="1">-->
-    <!--                                <el-checkbox label="Có"/>-->
-    <!--                                <el-checkbox label="Không"/>-->
-    <!--                                <el-checkbox label="Không ghi nhận"/>-->
-    <!--                              </el-checkbox-group>-->
-    <!--                            </el-form-item>-->
-    <!--                          </div>-->
-    <!--                        </el-card>-->
-    <!--                      </el-col>-->
-    <!--                      <el-col :span="12">-->
-    <!--                        <el-card>-->
-    <!--                          <template #header class="sp">-->
-    <!--                            <div class="card-header">-->
-    <!--                              <h3>-->
-    <!--                                Phù hợp với các khuyến cáo chính thức được ban hành Ghi cụ thể khuyến cáo:-->
-    <!--                              </h3>-->
-    <!--                            </div>-->
-    <!--                          </template>-->
-    <!--                          <div class="flex flex-row-reverse space-x-4 space-x-reverse">-->
-    <!--                            <el-form-item>-->
-    <!--                              <el-checkbox-group v-model="analyticForm.is_accorded" :max="1">-->
-    <!--                                <el-checkbox label="Có"/>-->
-    <!--                                <el-checkbox label="Không"/>-->
-    <!--                                <el-checkbox label="Không ghi nhận"/>-->
-    <!--                              </el-checkbox-group>-->
-    <!--                            </el-form-item>-->
-    <!--                          </div>-->
-    <!--                        </el-card>-->
-    <!--                      </el-col>-->
-    <!--                    </el-row>-->
-    <!--                  </div>-->
-    <!--                </el-card>-->
-    <!--                <el-card>-->
-    <!--                  <template #header>-->
-    <!--                    <div class="card-header flex justify-between">-->
-    <!--                      <h1>-->
-    <!--                        II. Đánh giá mức độ tổn thương-->
-    <!--                      </h1>-->
-    <!--                    </div>-->
-    <!--                  </template>-->
-    <!--                  <el-row :gutter="20">-->
-    <!--                    <el-col :span="12">-->
-    <!--                      <el-form-item label="Trên người bệnh">-->
-    <!--                        <el-cascader-panel-->
-    <!--                          v-model="analyticForm.client_level"-->
-    <!--                          :options="clientLevelOptions"-->
-    <!--                          placeholder="Mức độ tổn thương của người bệnh"-->
-    <!--                          class="mt-4 mb-4"/>-->
-    <!--                      </el-form-item>-->
-    <!--                    </el-col>-->
-    <!--                    <el-col :span="11" :offset="1">-->
-    <!--                      <el-form-item label="Trên tổ chức">-->
-    <!--                        <el-checkbox-group v-model="analyticForm.organization_level" :max="1" class="flex flex-col">-->
-    <!--                          <el-checkbox v-for="level in organizationLevels" :label="level"/>-->
-    <!--                        </el-checkbox-group>-->
-    <!--                      </el-form-item>-->
-    <!--                    </el-col>-->
-    <!--                  </el-row>-->
-    <!--                  <el-row :gutter="10">-->
-    <!--                    <el-col :span="12">-->
-    <!--                      <el-form-item label="Họ và tên">-->
-    <!--                        <el-input v-model="analyticForm.reported.name"/>-->
-    <!--                      </el-form-item>-->
-    <!--                    </el-col>-->
-    <!--                    <el-col :span="12">-->
-    <!--                      <el-form-item label="Chức danh">-->
-    <!--                        <el-input v-model="analyticForm.reported.title"> </el-input>-->
-    <!--                      </el-form-item>-->
-    <!--                    </el-col>-->
-    <!--                  </el-row>-->
-    <!--                  <el-row class="justify-between">-->
-    <!--                    <span class="self-center">Báo cáo được tao vào lúc <span class="font-bold">{{currentTime}}</span></span>-->
-    <!--                    <el-form-item class="w-1/2">-->
-    <!--                      <el-input v-model="analyticForm.reported.signature" placeholder="Kí tên" clearable></el-input>-->
-    <!--                    </el-form-item>-->
-    <!--                  </el-row>-->
-    <!--                </el-card>-->
-    <!--                <el-divider></el-divider>-->
-    <!--                <div class="flex justify-items-end">-->
-    <!--                  <el-form-item class="justify-end">-->
-    <!--                    <el-button type="primary" @click="onSubmit">Create</el-button>-->
-    <!--                    <el-button>Cancel</el-button>-->
-    <!--                  </el-form-item>-->
-    <!--                </div>-->
-    <!--              </div>-->
-    <!--            </el-tab-pane>-->
-    <!--          </el-tabs>-->
-    <!--        </el-col>-->
-    <!--      </el-row>-->
-    <!--    </el-form>-->
-    <el-form
-      :model="form"
-      ref="reportFormRef"
-      label-width="7vw"
-      size="default"
-      label-position="top"
-      class="report-section">
+    <el-form v-if='isAnalytic' :model='form' class='report-section' label-position='top' label-width='7vw'>
       <el-row>
-        <el-col :span="12">
-          <div class="content-center grid align-middle justify-center items-center w-1/2 fixed h-screen">
-            <span class="text-3xl font-black align-bottom text-white">MẪU BÁO CÁO SỰ CỐ Y KHOA</span>
-            <span class="text-1.1 italic font-thin text-white">(Ban hành kèm theo Quy trình số 01/QT-QLCL ngày 25/05/2020
+        <el-col :span='12'>
+          <div class='content-center grid align-middle justify-center items-center w-1/2 fixed h-screen'>
+            <span class='text-3xl font-black align-bottom text-white'>MẪU TÌM HIỂU VÀ PHÂN TÍCH SỰ CỐ</span>
+            <span class='text-1.1 italic font-thin text-white'>(Ban hành kèm theo Quy trình số 01/QT-QLCL ngày 25/05/2020 của Bệnh viện huyện Nhà Bè)</span>
+          </div>
+        </el-col>
+        <el-col :span='12'>
+          <el-tabs v-model='analyticTab' class='mt-2' type='border-card'>
+            <el-tab-pane label='A. Cấp nhân viên' name='employee'>
+              <div class='bg-gray-200 p-4 rounded-md space-y-2 mt-5 mb-5'>
+                <el-card>
+                  <template #header>
+                    <div class='card-header flex justify-between'>
+                      <h1>
+                        I. Mô tả chi tiết sự cố
+                      </h1>
+                      <div class='flex flex-row-reverse space-x-4 space-x-reverse'>
+                        <el-input v-model='analyticForm.analysis_id' class='w-full' clearable
+                                  placeholder='Số báo cáo' />
+                      </div>
+                    </div>
+                  </template>
+                  <div class='card-header-description mt-2'>
+                    <el-form-item label='Mô tả chi tiết sự cố'>
+                      <el-input v-model='analyticForm.performed_treatment' class='mt-4 mb-4'
+                                placeholder='(Mô tả cả xử lý tức thời và hậu quả. Đối với loét tỳ đè, chỉ ra cụ thể vị trí, bên, phạm vi và tình trạng lúc nhập viện. Đối với sai sót về thuốc, liệt kê rõ tất cả thuốc (đính kèm thêm 1 tờ liệt kê nếu cần)'
+                                type='textarea' />
+                    </el-form-item>
+                  </div>
+                </el-card>
+                <el-card>
+                  <template #header>
+                    <div class='card-header flex justify-between'>
+                      <h1>
+                        II. Phân loại sự cố theo nhóm sự cố (Incident type)
+                      </h1>
+                    </div>
+                  </template>
+                  <div v-for='(incident, id) in finalIncidentTypeList' :key='incident'>
+                    <el-form-item :label='`${id+1}. ${incident.title}`'>
+                      <el-checkbox-group v-model='analyticForm.incident_type' :max='1' class='flex flex-col'>
+                        <el-checkbox v-for='incident in incident.list' :label='incident' />
+                      </el-checkbox-group>
+                    </el-form-item>
+                  </div>
+                </el-card>
+                <el-card>
+                  <template #header>
+                    <h1>
+                      III. Điều trị/y lệnh đã được thực hiện
+                    </h1>
+                  </template>
+                  <div class='card-header-description mt-2'>
+                    <el-form-item label='Điều trị/y lệnh đã được thực hiện'>
+                      <el-input v-model='analyticForm.treatment_executed' class='mt-4 mb-4' type='textarea' />
+                    </el-form-item>
+                  </div>
+                </el-card>
+                <el-card>
+                  <template #header>
+                    <div class='card-header flex justify-between'>
+                      <h1>
+                        IV. Phân loại sự cố theo nhóm nguyên nhân gây ra sự cố
+                      </h1>
+                    </div>
+                  </template>
+                  <div v-for='(incident, id) in finalReasonList' :key='incident'>
+                    <el-form-item :label='`${id+1}. ${incident.title}`'>
+                      <el-checkbox-group v-model='analyticForm.incident_type' :max='1' class='flex flex-col'>
+                        <el-checkbox v-for='incident in incident.list' :label='incident' />
+                      </el-checkbox-group>
+                    </el-form-item>
+                  </div>
+                </el-card>
+                <el-card>
+                  <template #header>
+                    <h1>
+                      V. Hành động khắc phục sự cố
+                    </h1>
+                  </template>
+                  <div class='card-header-description mt-2'>
+                    <el-form-item label='Mô tả hành động xử lý sự cố'>
+                      <el-input v-model='analyticForm.solution_executed' class='mt-4 mb-4' type='textarea' />
+                    </el-form-item>
+                  </div>
+                </el-card>
+                <el-card>
+                  <template #header>
+                    <h1>
+                      VI. Đề xuất khuyến cáo phòng ngừa sự cố
+                    </h1>
+                  </template>
+                  <div class='card-header-description mt-2'>
+                    <el-form-item label='Ghi đề xuất khuyến cáo phòng ngừa'>
+                      <el-input v-model='analyticForm.solution_executed' class='mt-4 mb-4' type='textarea' />
+                    </el-form-item>
+                  </div>
+                </el-card>
+                <div class='flex justify-items-end'>
+                  <el-form-item class='justify-end'>
+                    <el-button type='primary' @click='onSubmit'>Create</el-button>
+                    <el-button>Cancel</el-button>
+                  </el-form-item>
+                </div>
+              </div>
+            </el-tab-pane>
+            <el-tab-pane label='B. Cấp quản lý' name='manager'>
+              <div class='bg-gray-200 p-4 rounded-md space-y-2 mt-5 mb-5'>
+                <el-card>
+                  <template #header>
+                    <div class='card-header flex justify-between'>
+                      <h1>
+                        I. Đánh giá của Trưởng nhóm chuyên gia
+                      </h1>
+                    </div>
+                  </template>
+                  <div class='card-header-description mt-2'>
+                    <el-form-item label='Mô tả chi tiết sự cố'>
+                      <el-input v-model='analyticForm.group_leader_evaluation' class='mt-4 mb-4'
+                                placeholder='Mô tả kết quả phát hiện được (không lặp lại các mô tả sự cố)'
+                                type='textarea' />
+                    </el-form-item>
+                    <el-row :gutter='10'>
+                      <el-col :span='12'>
+                        <el-card>
+                          <template #header class='sp'>
+                            <div class='card-header'>
+                              <h3>
+                                Đã thảo luận đưa khuyến cáo/hướng xử lý với người báo cáo
+                              </h3>
+                            </div>
+                          </template>
+                          <div class='flex flex-row-reverse space-x-4 space-x-reverse'>
+                            <el-form-item>
+                              <el-checkbox-group v-model='analyticForm.is_aligned_with_reporter' :max='1'>
+                                <el-checkbox label='Có' />
+                                <el-checkbox label='Không' />
+                                <el-checkbox label='Không ghi nhận' />
+                              </el-checkbox-group>
+                            </el-form-item>
+                          </div>
+                        </el-card>
+                      </el-col>
+                      <el-col :span='12'>
+                        <el-card>
+                          <template #header class='sp'>
+                            <div class='card-header'>
+                              <h3>
+                                Phù hợp với các khuyến cáo chính thức được ban hành Ghi cụ thể khuyến cáo:
+                              </h3>
+                            </div>
+                          </template>
+                          <div class='flex flex-row-reverse space-x-4 space-x-reverse'>
+                            <el-form-item>
+                              <el-checkbox-group v-model='analyticForm.is_accorded' :max='1'>
+                                <el-checkbox label='Có' />
+                                <el-checkbox label='Không' />
+                                <el-checkbox label='Không ghi nhận' />
+                              </el-checkbox-group>
+                            </el-form-item>
+                          </div>
+                        </el-card>
+                      </el-col>
+                    </el-row>
+                  </div>
+                </el-card>
+                <el-card>
+                  <template #header>
+                    <div class='card-header flex justify-between'>
+                      <h1>
+                        II. Đánh giá mức độ tổn thương
+                      </h1>
+                    </div>
+                  </template>
+                  <el-row :gutter='20'>
+                    <el-col :span='12'>
+                      <el-form-item label='Trên người bệnh'>
+                        <el-cascader-panel
+                          v-model='analyticForm.client_level'
+                          :options='clientLevelOptions'
+                          class='mt-4 mb-4'
+                          placeholder='Mức độ tổn thương của người bệnh' />
+                      </el-form-item>
+                    </el-col>
+                    <el-col :offset='1' :span='11'>
+                      <el-form-item label='Trên tổ chức'>
+                        <el-checkbox-group v-model='analyticForm.organization_level' :max='1' class='flex flex-col'>
+                          <el-checkbox v-for='level in organizationLevels' :label='level' />
+                        </el-checkbox-group>
+                      </el-form-item>
+                    </el-col>
+                  </el-row>
+                  <el-row :gutter='10'>
+                    <el-col :span='12'>
+                      <el-form-item label='Họ và tên'>
+                        <el-input v-model='analyticForm.reported.name' />
+                      </el-form-item>
+                    </el-col>
+                    <el-col :span='12'>
+                      <el-form-item label='Chức danh'>
+                        <el-input v-model='analyticForm.reported.title'></el-input>
+                      </el-form-item>
+                    </el-col>
+                  </el-row>
+                  <el-row class='justify-between'>
+                    <span class='self-center'>Báo cáo được tao vào lúc <span class='font-bold'>{{ currentTime }}</span></span>
+                    <el-form-item class='w-1/2'>
+                      <el-input v-model='analyticForm.reported.signature' clearable placeholder='Kí tên'></el-input>
+                    </el-form-item>
+                  </el-row>
+                </el-card>
+                <el-divider></el-divider>
+                <div class='flex justify-items-end'>
+                  <el-form-item class='justify-end'>
+                    <el-button type='primary' @click='onSubmit'>Create</el-button>
+                    <el-button>Cancel</el-button>
+                  </el-form-item>
+                </div>
+              </div>
+            </el-tab-pane>
+          </el-tabs>
+        </el-col>
+      </el-row>
+    </el-form>
+    <el-form
+      v-else
+      ref='reportFormRef'
+      :model='form'
+      class='report-section'
+      label-position='top'
+      label-width='7vw'
+      size='default'>
+      <el-row>
+        <el-col :span='12'>
+          <div class='content-center grid align-middle justify-center items-center w-1/2 fixed h-screen'>
+            <span class='text-3xl font-black align-bottom text-white'>MẪU BÁO CÁO SỰ CỐ Y KHOA</span>
+            <span class='text-1.1 italic font-thin text-white'>(Ban hành kèm theo Quy trình số 01/QT-QLCL ngày 25/05/2020
               của
               Bệnh viện huyện Nhà Bè)
             </span>
           </div>
         </el-col>
-        <el-col :span="12">
-          <div class="bg-gray-200 p-4 rounded-md space-y-2 mt-5 mb-5">
-            <el-card class="report-card">
+        <el-col :span='12'>
+          <div class='bg-gray-200 p-4 rounded-md space-y-2 mt-5 mb-5'>
+            <el-card class='report-card'>
               <template #header>
-                <div class="card-header flex">
-                  <h1 class="w-2/4">
+                <div class='card-header flex'>
+                  <h1 class='w-2/4'>
                     Thông tin người bệnh
                   </h1>
-                  <div class="flex flex-row-reverse space-x-4 space-x-reverse">
-                    <el-form-item required prop="reportId">
-                      <el-input v-model="form.reportId" clearable class="w-full" placeholder="Số báo cáo"/>
+                  <div class='flex flex-row-reverse space-x-4 space-x-reverse'>
+                    <el-form-item prop='reportId' required>
+                      <el-input v-model='form.reportId' class='w-full' clearable placeholder='Số báo cáo'
+                                type='number' />
                     </el-form-item>
-                    <el-form-item required prop="num_medical">
-                      <el-input v-model="form.num_medical" clearable class="w-full" placeholder="Số bệnh án"/>
+                    <el-form-item prop='num_medical' required>
+                      <el-input v-model='form.num_medical' class='w-full' clearable placeholder='Số bệnh án'
+                                type='number' />
                     </el-form-item>
                   </div>
                 </div>
               </template>
-              <el-row :gutter="20">
-                <el-col :span="12">
-                  <el-form-item label="Họ và tên" prop="name" required>
+              <el-row :gutter='20'>
+                <el-col :span='12'>
+                  <el-form-item label='Họ và tên' prop='name' required>
                     <el-input
-                      v-model="form.name"
+                      v-model='form.name'
                       clearable
                     />
                   </el-form-item>
                 </el-col>
-                <el-col :span="6">
-                  <el-form-item label="Giới tính" prop="gender" required>
-                    <el-select v-model="form.gender" placeholder="Vui lòng chọn giới tính">
-                      <el-option label="Nam" value="male"/>
-                      <el-option label="Nữ" value="female"/>
-                      <el-option label="Khác" value="other"/>
+                <el-col :span='6'>
+                  <el-form-item label='Giới tính' prop='gender' required>
+                    <el-select v-model='form.gender' placeholder='Vui lòng chọn giới tính'>
+                      <el-option label='Nam' value='male' />
+                      <el-option label='Nữ' value='female' />
+                      <el-option label='Khác' value='other' />
                     </el-select>
                   </el-form-item>
                 </el-col>
-                <el-col :span="6">
-                  <el-form-item label="Ngày sinh" prop="birthdate" required>
+                <el-col :span='6'>
+                  <el-form-item label='Ngày sinh' prop='birthdate' required>
                     <el-date-picker
-                      v-model="form.birthdate"
-                      type="date"
+                      v-model='form.birthdate'
+                      type='date'
                     />
                   </el-form-item>
                 </el-col>
               </el-row>
-              <el-form-item label="Đối tượng xảy ra sự cố" prop="subject_incident" required>
-                <el-checkbox-group v-model="form.subject_incident" :max="1">
-                  <el-checkbox label="Người bệnh"/>
-                  <el-checkbox label="Người nhà/khách đến thăm"/>
-                  <el-checkbox label="Nhân viên y tế"/>
-                  <el-checkbox label="Trang thiết bị/cơ sở hạ tầng"/>
+              <el-form-item label='Đối tượng xảy ra sự cố' prop='subject_incident' required>
+                <el-checkbox-group v-model='form.subject_incident' :max='1'>
+                  <el-checkbox label='Người bệnh' />
+                  <el-checkbox label='Người nhà/khách đến thăm' />
+                  <el-checkbox label='Nhân viên y tế' />
+                  <el-checkbox label='Trang thiết bị/cơ sở hạ tầng' />
                 </el-checkbox-group>
               </el-form-item>
             </el-card>
-            <el-card class="report-card">
+            <el-card class='report-card'>
               <template #header>
-                <div class="card-header">
+                <div class='card-header'>
                   <h1>
                     Thông tin người báo cáo
                   </h1>
                 </div>
               </template>
-              <el-row :gutter="20">
-                <el-col :span="12">
-                  <el-form-item label="Họ và tên" prop="report.name" required>
-                    <el-input v-model="form.report.name"/>
+              <el-row :gutter='20'>
+                <el-col :span='12'>
+                  <el-form-item label='Họ và tên' prop='report.name' required>
+                    <el-input v-model='form.report.name' />
                   </el-form-item>
                 </el-col>
-                <el-col :span="6">
-                  <el-form-item label="Số điện thoại" prop="report.phone" required>
-                    <el-input type="number" v-model="form.report.phone"></el-input>
+                <el-col :span='6'>
+                  <el-form-item label='Số điện thoại' prop='report.phone' required>
+                    <el-input v-model='form.report.phone' type='number'></el-input>
                   </el-form-item>
                 </el-col>
-                <el-col :span="6">
-                  <el-form-item label="Email" prop="report.email" required>
-                    <el-input type="text" v-model="form.report.email"></el-input>
+                <el-col :span='6'>
+                  <el-form-item label='Email' prop='report.email' required>
+                    <el-input v-model='form.report.email' type='text'></el-input>
                   </el-form-item>
                 </el-col>
               </el-row>
               <el-row>
-                <el-form-item label="Chức danh" prop="title" required>
-                  <el-checkbox-group v-model="form.title" :max="1">
-                    <el-checkbox label="Điều dưỡng"/>
-                    <el-checkbox label="Bác sĩ"/>
-                    <el-checkbox label="Người bệnh"/>
-                    <el-checkbox label="Người nhà/khách đến thăm"/>
-                    <el-checkbox label="Khác"/>
+                <el-form-item label='Chức danh' prop='title' required>
+                  <el-checkbox-group v-model='form.title' :max='1'>
+                    <el-checkbox label='Điều dưỡng' />
+                    <el-checkbox label='Bác sĩ' />
+                    <el-checkbox label='Người bệnh' />
+                    <el-checkbox label='Người nhà/khách đến thăm' />
+                    <el-checkbox label='Khác' />
                   </el-checkbox-group>
                 </el-form-item>
               </el-row>
-              <el-row class="flex space-x-4">
-                <el-form-item label="Người chứng kiến 1" class="w-1/3" prop="observer_1" required>
-                  <el-input v-model="form.observer_1"></el-input>
+              <el-row class='flex space-x-4'>
+                <el-form-item class='w-1/3' label='Người chứng kiến 1' prop='observer_1' required>
+                  <el-input v-model='form.observer_1'></el-input>
                 </el-form-item>
-                <el-form-item label="Người chứng kiến 2" class="w-1/3" prop="observer_2" required>
-                  <el-input v-model="form.observer_2"></el-input>
+                <el-form-item class='w-1/3' label='Người chứng kiến 2' prop='observer_2' required>
+                  <el-input v-model='form.observer_2'></el-input>
                 </el-form-item>
               </el-row>
             </el-card>
-            <el-card class="report-card">
+            <el-card class='report-card'>
               <template #header>
-                <div class="card-header flex">
-                  <h1 class="w-2/3">
+                <div class='card-header flex'>
+                  <h1 class='w-2/3'>
                     Nơi xảy ra sự cố
                   </h1>
-                  <div class="flex flex-row-reverse space-x-4 space-x-reverse w-2/3">
-                    <el-form-item prop="issued_date" required>
+                  <div class='flex flex-row-reverse space-x-4 space-x-reverse w-2/3'>
+                    <el-form-item prop='issued_date' required>
                       <el-date-picker
-                        v-model="form.issued_date"
-                        type="datetime"
-                        placeholder="Ngày giờ xảy ra sự cố"
+                        v-model='form.issued_date'
+                        placeholder='Ngày giờ xảy ra sự cố'
+                        type='datetime'
                       />
                     </el-form-item>
                   </div>
                 </div>
               </template>
-              <el-row :gutter="20">
-                <el-col :span="12">
-                  <el-form-item label="Khoa/phòng/vị trí xảy ra sự cố" prop="incident_location" required>
-                    <el-input v-model="form.incident_location" type="textarea" class="mt-4 mb-4"
-                              placeholder="Ví dụ: khoa ICU, khuôn viên bệnh viện"/>
+              <el-row :gutter='20'>
+                <el-col :span='12'>
+                  <el-form-item label='Khoa/phòng/vị trí xảy ra sự cố' prop='incident_location' required>
+                    <el-input v-model='form.incident_location' autosize class='mt-4 mb-4'
+                              placeholder='Ví dụ: khoa ICU, khuôn viên bệnh viện'
+                              type='textarea' />
                   </el-form-item>
-                  <el-form-item label="Mô tả ngắn gọn về sự cố" prop="short_description" required>
-                    <el-input v-model="form.short_description" type="textarea" class="mt-4 mb-4"/>
+                  <el-form-item label='Mô tả ngắn gọn về sự cố' prop='short_description' required>
+                    <el-input v-model='form.short_description' autosize class='mt-4 mb-4' type='textarea' />
                   </el-form-item>
                 </el-col>
-                <el-col :span="12">
-                  <el-form-item label="Vị trí cụ thể" prop="exact_location" required>
-                    <el-input v-model="form.exact_location" type="textarea" class="mt-4 mb-4"
-                              placeholder="ví dụ: nhà vệ sinh, bãi đậu xe...."/>
+                <el-col :span='12'>
+                  <el-form-item label='Vị trí cụ thể' prop='exact_location' required>
+                    <el-input v-model='form.exact_location' autosize class='mt-4 mb-4'
+                              placeholder='ví dụ: nhà vệ sinh, bãi đậu xe....'
+                              type='textarea' />
                   </el-form-item>
-                  <el-form-item label="Đề xuất giải pháp ban đầu" prop="proposal_solution" required>
-                    <el-input v-model="form.proposal_solution" type="textarea" class="mt-4 mb-4"/>
+                  <el-form-item label='Đề xuất giải pháp ban đầu' prop='proposal_solution' required>
+                    <el-input v-model='form.proposal_solution' autosize class='mt-4 mb-4' type='textarea' />
                   </el-form-item>
                 </el-col>
               </el-row>
               <el-row>
-                <el-form-item label="Điều trị/xử lí ban đầu đã được thực hiện" prop="performed_treatment" required>
-                  <el-input v-model="form.performed_treatment" type="textarea" class="mt-4 mb-4"/>
+                <el-form-item label='Điều trị/xử lí ban đầu đã được thực hiện' prop='performed_treatment' required>
+                  <el-input v-model='form.performed_treatment' autosize class='mt-4 mb-4' type='textarea' />
                 </el-form-item>
               </el-row>
             </el-card>
-            <el-card class="report-card">
-              <el-row :gutter="10">
-                <el-col :span="12">
+            <el-card class='report-card'>
+              <el-row :gutter='10'>
+                <el-col :span='12'>
                   <el-card>
-                    <template #header class="sp">
-                      <div class="card-header">
+                    <template #header class='sp'>
+                      <div class='card-header'>
                         <h3>
                           Phân loại ban đầu về sự cố
                         </h3>
                       </div>
                     </template>
-                    <div class="flex flex-row-reverse space-x-4 space-x-reverse">
-                      <el-form-item prop="incident_classification" required>
-                        <el-checkbox-group v-model="form.incident_classification" :max="1">
-                          <el-checkbox label="Chưa xảy ra"/>
-                          <el-checkbox label="Đã xảy ra"/>
+                    <div class='flex flex-row-reverse space-x-4 space-x-reverse'>
+                      <el-form-item prop='incident_classification' required>
+                        <el-checkbox-group v-model='form.incident_classification' :max='1'>
+                          <el-checkbox label='Chưa xảy ra' />
+                          <el-checkbox label='Đã xảy ra' />
                         </el-checkbox-group>
                       </el-form-item>
                     </div>
                   </el-card>
-                  <el-card class="mt-2">
-                    <template #header class="sp">
-                      <div class="card-header">
+                  <el-card class='mt-2'>
+                    <template #header class='sp'>
+                      <div class='card-header'>
                         <h3>
                           Thông báo cho người nhà/người bảo hộ
                         </h3>
                       </div>
                     </template>
-                    <div class="flex flex-row-reverse space-x-4 space-x-reverse">
-                      <el-form-item prop="is_family_noticed" required>
-                        <el-checkbox-group v-model="form.is_family_noticed" :max="1">
-                          <el-checkbox label="Có"/>
-                          <el-checkbox label="Không"/>
-                          <el-checkbox label="Không ghi nhận"/>
+                    <div class='flex flex-row-reverse space-x-4 space-x-reverse'>
+                      <el-form-item prop='is_family_noticed' required>
+                        <el-checkbox-group v-model='form.is_family_noticed' :max='1'>
+                          <el-checkbox label='Có' />
+                          <el-checkbox label='Không' />
+                          <el-checkbox label='Không ghi nhận' />
                         </el-checkbox-group>
                       </el-form-item>
                     </div>
                   </el-card>
-                  <el-card class="mt-2">
-                    <template #header class="sp">
-                      <div class="card-header">
+                  <el-card class='mt-2'>
+                    <template #header class='sp'>
+                      <div class='card-header'>
                         <h3>
                           Thông báo cho Bác sĩ điều trị/người có trách nhiệm
                         </h3>
 
                       </div>
                     </template>
-                    <div class="flex flex-row-reverse space-x-4 space-x-reverse">
-                      <el-form-item required prop="is_informed">
-                        <el-checkbox-group v-model="form.is_informed" :max="1">
-                          <el-checkbox label="Có"/>
-                          <el-checkbox label="Không"/>
-                          <el-checkbox label="Không ghi nhận"/>
+                    <div class='flex flex-row-reverse space-x-4 space-x-reverse'>
+                      <el-form-item prop='is_informed' required>
+                        <el-checkbox-group v-model='form.is_informed' :max='1'>
+                          <el-checkbox label='Có' />
+                          <el-checkbox label='Không' />
+                          <el-checkbox label='Không ghi nhận' />
                         </el-checkbox-group>
                       </el-form-item>
                     </div>
                   </el-card>
                 </el-col>
-                <el-col :span="12">
+                <el-col :span='12'>
                   <el-card>
-                    <template #header class="sp">
-                      <div class="card-header">
+                    <template #header class='sp'>
+                      <div class='card-header'>
                         <h3>
                           Ghi nhận vào hồ sơ bệnh án/giấy tờ liên quan
                         </h3>
                       </div>
                     </template>
-                    <div class="flex flex-row-reverse space-x-4 space-x-reverse">
-                      <el-form-item required prop="is_recorded">
-                        <el-checkbox-group v-model="form.is_recorded" :max="1">
-                          <el-checkbox label="Có"/>
-                          <el-checkbox label="Không"/>
-                          <el-checkbox label="Không ghi nhận"/>
+                    <div class='flex flex-row-reverse space-x-4 space-x-reverse'>
+                      <el-form-item prop='is_recorded' required>
+                        <el-checkbox-group v-model='form.is_recorded' :max='1'>
+                          <el-checkbox label='Có' />
+                          <el-checkbox label='Không' />
+                          <el-checkbox label='Không ghi nhận' />
                         </el-checkbox-group>
                       </el-form-item>
                     </div>
                   </el-card>
-                  <el-card class="mt-2">
-                    <template #header class="sp">
-                      <div class="card-header">
+                  <el-card class='mt-2'>
+                    <template #header class='sp'>
+                      <div class='card-header'>
                         <h3>
                           Thông báo cho người bệnh
                         </h3>
                       </div>
                     </template>
-                    <div class="flex flex-row-reverse space-x-4 space-x-reverse">
-                      <el-form-item required prop="is_client_noticed">
-                        <el-checkbox-group v-model="form.is_client_noticed" :max="1">
-                          <el-checkbox label="Có"/>
-                          <el-checkbox label="Không"/>
-                          <el-checkbox label="Không ghi nhận"/>
+                    <div class='flex flex-row-reverse space-x-4 space-x-reverse'>
+                      <el-form-item prop='is_client_noticed' required>
+                        <el-checkbox-group v-model='form.is_client_noticed' :max='1'>
+                          <el-checkbox label='Có' />
+                          <el-checkbox label='Không' />
+                          <el-checkbox label='Không ghi nhận' />
                         </el-checkbox-group>
                       </el-form-item>
                     </div>
                   </el-card>
-                  <el-card class="mt-2">
-                    <template #header class="sp">
-                      <div class="card-header">
+                  <el-card class='mt-2'>
+                    <template #header class='sp'>
+                      <div class='card-header'>
                         <h3>
                           Đánh giá ban đầu về mức độ ảnh hưởng của sự cố
                         </h3>
                       </div>
                     </template>
-                    <div class="flex flex-row-reverse space-x-4 space-x-reverse">
-                      <el-form-item required prop="impact_classification">
-                        <el-checkbox-group v-model="form.impact_classification" :max="1">
-                          <el-checkbox label="Nặng"/>
-                          <el-checkbox label="Trung bình"/>
-                          <el-checkbox label="nhẹ"/>
+                    <div class='flex flex-row-reverse space-x-4 space-x-reverse'>
+                      <el-form-item prop='impact_classification' required>
+                        <el-checkbox-group v-model='form.impact_classification' :max='1'>
+                          <el-checkbox label='Nặng' />
+                          <el-checkbox label='Trung bình' />
+                          <el-checkbox label='nhẹ' />
                         </el-checkbox-group>
                       </el-form-item>
                     </div>
@@ -501,10 +509,10 @@
               </el-row>
             </el-card>
 
-            <div class="flex justify-items-end">
-              <el-form-item class="justify-end">
-                <el-button type="primary" @click="submitForm(reportFormRef)">Create</el-button>
-                <el-button @click="resetForm(reportFormRef)">Reset</el-button>
+            <div class='flex justify-items-end'>
+              <el-form-item class='justify-end'>
+                <el-button type='primary' @click='submitForm(reportFormRef)'>Create</el-button>
+                <el-button @click='resetForm(reportFormRef)'>Reset</el-button>
               </el-form-item>
             </div>
           </div>
@@ -514,11 +522,11 @@
   </el-scrollbar>
 </template>
 
-<script lang="ts" setup>
-import {computed, onMounted, reactive, ref} from "vue";
-import {useRoute} from "vue-router";
-import {ReportState} from "modules/reports/store/types";
-import type {FormInstance, FormRules} from 'element-plus'
+<script lang='ts' setup>
+import { computed, h, onMounted, reactive, ref } from 'vue'
+import { useRoute } from 'vue-router'
+import type { FormInstance } from 'element-plus'
+import { ElMessage } from 'element-plus'
 
 const router = useRoute()
 const isAnalytic = computed(() => router.query.reportForm === 'analytic')
@@ -545,7 +553,7 @@ const analyticForm = reactive(
       signature: '',
     }),
     created_at: new Date(),
-  }
+  },
 )
 
 const form = reactive({
@@ -588,7 +596,7 @@ const technicalProcess = [
   'Bỏ sót dụng cụ, vật tư tiêu hao trong quá trình phẫu thuật',
   'Tử vong trong thai kỳ',
   'Tử vong khi sinh',
-  'Tử vong sơ sinh'
+  'Tử vong sơ sinh',
 ]
 
 const hospitalInfections = [
@@ -596,7 +604,7 @@ const hospitalInfections = [
   'Viêm phổi',
   'Nhiễm khuẩn vết mổ',
   'Nhiễm khuẩn tiết niệu',
-  'Các loại nhiễm khuẩn khác'
+  'Các loại nhiễm khuẩn khác',
 ]
 
 const medicinesAndFluids = [
@@ -608,7 +616,7 @@ const medicinesAndFluids = [
   'Bỏ sót thuốc/liều thuốc',
   'Sai thuốc',
   'Sai người bệnh',
-  'Sai đường dùng'
+  'Sai đường dùng',
 ]
 
 const BloodAndBloodProducts = [
@@ -620,7 +628,7 @@ const BloodAndBloodProducts = [
 const medicalDevices = [
   'Thiếu thông tin hướng dẫn sử dụng',
   'Lỗi thiết bị',
-  'Thiết bị thiếu hoặc không phù hợp'
+  'Thiết bị thiếu hoặc không phù hợp',
 ]
 
 const behaviorList = [
@@ -629,22 +637,22 @@ const behaviorList = [
   'Quấy rối tình dục bởi người bệnh/ khách đến thăm',
   'Xâm hại cơ thể bởi người bệnh/khách đến thăm',
   'Có hành động tự tử',
-  'Trốn viện'
+  'Trốn viện',
 ]
 
 const clientAccidents = [
-  'Té ngã'
+  'Té ngã',
 ]
 
 const infrastructure = [
   'Bị hư hỏng, bị lỗi',
-  'Thiếu hoặc không phù hợp'
+  'Thiếu hoặc không phù hợp',
 ]
 
 const resourceManagement = [
   'Tính phù hợp, đầy đủ của dịch vụ khám bệnh, chữa bệnh',
   'Tính phù hợp, đầy đủ của nguồn lực',
-  'Tính phù hợp, đầy đủ của chính sách, quy định, quy trình, hướng dẫn chuyên môn'
+  'Tính phù hợp, đầy đủ của chính sách, quy định, quy trình, hướng dẫn chuyên môn',
 ]
 
 const documents = [
@@ -653,69 +661,69 @@ const documents = [
   'Thời gian chờ đợi kéo dài',
   'Cung cấp hồ sơ tài liệu chậm',
   'Nhầm hồ sơ tài liệu',
-  'Thủ tục hành chính phức tạp'
+  'Thủ tục hành chính phức tạp',
 ]
 
 const others = [
-  'Các sự cố không đề cập trong các mục từ 1 đến 10'
+  'Các sự cố không đề cập trong các mục từ 1 đến 10',
 ]
 
 const finalIncidentTypeList = ref([
   {
     id: 1,
     title: 'Thực hiện quy trình kỹ thuật, thủ thuật chuyên môn',
-    list: technicalProcess
+    list: technicalProcess,
   },
   {
     id: 2,
     title: 'Nhiễm khuẩn bệnh viện',
-    list: hospitalInfections
+    list: hospitalInfections,
   },
   {
     id: 3,
     title: 'Thuốc và dịch truyền',
-    list: medicinesAndFluids
+    list: medicinesAndFluids,
   },
   {
     id: 4,
     title: 'Máu và các chế phẩm máu',
-    list: BloodAndBloodProducts
+    list: BloodAndBloodProducts,
   },
   {
     id: 5,
     title: 'Thiết bị y tế',
-    list: medicalDevices
+    list: medicalDevices,
   },
   {
     id: 6,
     title: 'Hành vi',
-    list: behaviorList
+    list: behaviorList,
   },
   {
     id: 7,
     title: 'Tai nạn đối với người bệnh',
-    list: clientAccidents
+    list: clientAccidents,
   },
   {
     id: 8,
     title: 'Hạ tầng cơ sở',
-    list: infrastructure
+    list: infrastructure,
   },
   {
     id: 9,
     title: 'Quản lý nguồn lực, tổ chức',
-    list: resourceManagement
+    list: resourceManagement,
   },
   {
     id: 10,
     title: 'Hồ sơ, tài liệu, thủ tục hành chính',
-    list: documents
+    list: documents,
   },
   {
     id: 11,
     title: 'Khác',
-    list: others
-  }
+    list: others,
+  },
 ])
 
 const employees = [
@@ -724,7 +732,7 @@ const employees = [
   'Thái độ, hành vi, cảm xúc',
   'Giao tiếp',
   'Tâm sinh lý, thể chất, bệnh lý',
-  'Các yếu tố xã hội'
+  'Các yếu tố xã hội',
 ]
 
 const clients = [
@@ -747,50 +755,50 @@ const organizationService = [
   'Các chính sách, quy trình, hướng dẫn chuyên môn',
   'Tuân thủ quy trình thực hành chuẩn',
   'Văn hóa tổ chức',
-  'Làm việc nhóm'
+  'Làm việc nhóm',
 ]
 
 const outsider = [
   'Môi trường tự nhiên',
   'Sản phẩm, công nghệ và cơ sở hạ tầng',
-  'Quy trình, hệ thống dịch vụ'
+  'Quy trình, hệ thống dịch vụ',
 ]
 
 const reasonOthers = [
-  'Các yếu tố không đề cập trong các mục từ 1 đến 5'
+  'Các yếu tố không đề cập trong các mục từ 1 đến 5',
 ]
 
 const finalReasonList = ref([
   {
     id: 1,
     title: 'Nhân viên',
-    list: employees
+    list: employees,
   },
   {
     id: 2,
     title: 'Người bệnh',
-    list: clients
+    list: clients,
   },
   {
     id: 3,
     title: 'Môi trường làm việc',
-    list: environment
+    list: environment,
   },
   {
     id: 4,
     title: 'Tổ chức, dịch vụ',
-    list: organizationService
+    list: organizationService,
   },
   {
     id: 5,
     title: 'Yếu tố Bên ngoài',
-    list: outsider
+    list: outsider,
   },
   {
     id: 6,
     title: 'Khác',
-    list: reasonOthers
-  }
+    list: reasonOthers,
+  },
 ])
 
 const clientLevelOptions = [
@@ -800,9 +808,9 @@ const clientLevelOptions = [
     children: [
       {
         value: 'A',
-        label: 'A'
-      }
-    ]
+        label: 'A',
+      },
+    ],
   },
   {
     value: 'nc1',
@@ -810,17 +818,17 @@ const clientLevelOptions = [
     children: [
       {
         value: 'B',
-        label: 'B'
+        label: 'B',
       },
       {
         value: 'C',
-        label: 'C'
+        label: 'C',
       },
       {
         value: 'D',
-        label: 'D'
-      }
-    ]
+        label: 'D',
+      },
+    ],
   },
   {
     value: 'nc2',
@@ -828,13 +836,13 @@ const clientLevelOptions = [
     children: [
       {
         value: 'E',
-        label: 'E'
+        label: 'E',
       },
       {
         value: 'F',
-        label: 'F'
-      }
-    ]
+        label: 'F',
+      },
+    ],
   },
   {
     value: 'nc3',
@@ -842,17 +850,17 @@ const clientLevelOptions = [
     children: [
       {
         value: 'G',
-        label: 'G'
+        label: 'G',
       },
       {
         value: 'H',
-        label: 'H'
+        label: 'H',
       },
       {
         value: 'I',
-        label: 'I'
-      }
-    ]
+        label: 'I',
+      },
+    ],
   },
 ]
 
@@ -863,30 +871,42 @@ const organizationLevels = [
   'Khiếu nại của người bệnh',
   'Tổn hại danh tiếng',
   'Can thiệp của pháp luật',
-  'Khác'
+  'Khác',
 ]
 
-const currentTime = ref('');
+const currentTime = ref('')
 
 // Function to update the current time
 const updateCurrentTime = () => {
-  const now = new Date();
-  currentTime.value = now.toLocaleString();
-};
+  const now = new Date()
+  currentTime.value = now.toLocaleString()
+}
 
 // Call the updateCurrentTime function on component mount
 onMounted(() => {
   // Update the time every second
-  setInterval(updateCurrentTime, 1000);
-});
+  setInterval(updateCurrentTime, 1000)
+})
 
 const submitForm = async (formEl: FormInstance | undefined) => {
   if (!formEl) return
   await formEl.validate((valid, fields) => {
     if (valid) {
-      console.log('submit!' + JSON.stringify(form))
+      ElMessage({
+        message: h('p', null, [
+          h('span', null, 'Message can be '),
+          h('i', { style: 'color: teal' }, 'submit!'),
+        ]),
+        type: 'success',
+      })
+      // Send to BE and filled in data
     } else {
-      console.log('error submit!', fields)
+      ElMessage({
+        message: 'Vui lòng hoàn thiện các thông tin yêu cầu.',
+        grouping: true,
+        showClose: true,
+        type: 'error',
+      })
     }
   })
 }
@@ -900,5 +920,16 @@ const resetForm = (formEl: FormInstance | undefined) => {
 <style>
 .report-card {
   background: whitesmoke;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  /* display: none; <- Crashes Chrome on hover */
+  -webkit-appearance: none;
+  margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+}
+
+input[type=number] {
+  -moz-appearance: textfield; /* Firefox */
 }
 </style>

@@ -16,8 +16,11 @@
           class="transition-opacity duration-300 opacity-1 p-6 block"
           :to="{ name: 'Dashboard' }"
         >
-          <img src="@/assets/images/nhabe_logo.png" class="max-h-8 max-w-full align-middle" alt="..." />
+          <img src="@/assets/images/nhabe_logo.png" class="max-h-12 max-w-full align-middle" alt="..." />
         </router-link>
+        <div v-if="(isSBOpen && !isSBPin) || isSBPin">
+          <span>Nhà Bè</span>
+        </div>
         <div class="ml-auto">
           <div class="lg:col-span-10 xl:col-span-10 flex">
             <div class="hidden lg:block flex-grow">

@@ -9,9 +9,18 @@ export const checkIsMobile = () => {
 }
 
 export const addNewLine = (text: string) => {
-  return text.replace(/\n/g, '<br>');
+  return text.replace(/\n/g, '<br>')
 }
 
 export const indexMethod = (index: number) => {
   return index + 1
+}
+
+export const transformList = (originalList: any[], key: string): any[] => {
+  const uniqueValues = new Set(originalList.map((item) => item[key]))
+
+  return Array.from(uniqueValues).map((value) => ({
+    text: value,
+    value: value,
+  }))
 }

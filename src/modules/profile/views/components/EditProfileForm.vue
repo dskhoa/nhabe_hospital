@@ -20,7 +20,7 @@
                 <el-input v-model="userForm.name" placeholder="Admin" />
               </el-form-item>
               <el-form-item label="Email">
-                <el-input v-model="userForm.mail" placeholder="admin@argon.com" />
+                <el-input v-model="userForm.mail" placeholder="admin@nhabe.com" />
               </el-form-item>
 
               <el-form-item label="Profile photo">

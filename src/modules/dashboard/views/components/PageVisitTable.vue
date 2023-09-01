@@ -90,31 +90,31 @@ export default defineComponent({
   setup() {
     const tableData: PageVisitInfo[] = [
       {
-        pageName: '/argon/',
+        pageName: '/nhabe/',
         visitorNumber: '4,569',
         userNumber: 340,
         rate: 46.53,
       },
       {
-        pageName: '/argon/index.html',
+        pageName: '/nhabe/index.html',
         visitorNumber: '3,985',
         userNumber: 319,
         rate: 46.53,
       },
       {
-        pageName: '/argon/charts.html',
+        pageName: '/nhabe/charts.html',
         visitorNumber: '3,513	',
         userNumber: 294,
         rate: 36.49,
       },
       {
-        pageName: '/argon/tables.html',
+        pageName: '/nhabe/tables.html',
         visitorNumber: '2,000',
         userNumber: 147,
         rate: 50.87,
       },
       {
-        pageName: '/argon/profile.html',
+        pageName: '/nhabe/profile.html',
         visitorNumber: '1,795',
         userNumber: 190,
         rate: 42.53,

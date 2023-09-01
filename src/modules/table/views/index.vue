@@ -1,113 +1,124 @@
 <template>
-  <div class="w-full block mx-auto h-auto py-2">
-    <div class="flex flex-wrap flex-col bg-white shadow mb-7 mx-auto rounded-md">
-      <div class="py-5 px-6 border-b border-primary-white">
-        <h3 class="cursor-auto">Light table</h3>
+  <div class='w-full block mx-auto h-auto py-2'>
+    <div class='flex flex-wrap flex-col bg-white shadow mb-7 mx-auto rounded-md'>
+      <div class='py-5 px-6 border-b border-primary-white'>
+        <h3 class='cursor-auto'>BÁO CÁO Y KHOA</h3>
       </div>
-      <div class="block overflow-x-auto w-full">
-        <ProjectTable :tableData="tableData" />
+      <div class='block overflow-x-auto w-full'>
+        <ProjectTable :tableData='tableData' />
       </div>
-      <div class="p-4">
+      <div class='p-4'>
         <Pagination />
-      </div>
-    </div>
-    <div class="flex flex-wrap flex-col shadow mb-7 mx-auto rounded-md bg-dark">
-      <div class="py-5 px-6 border-b border-dark-light">
-        <h3 class="cursor-auto text-slate-50">Dark table</h3>
-      </div>
-      <div class="block overflow-x-auto w-full">
-        <ProjectTable :tableData="tableData" :theme="'dark'" />
       </div>
     </div>
   </div>
 </template>
 
-<script lang="ts">
+<script lang='ts'>
 import { defineComponent } from 'vue'
 
-import John_Snow_Url from '@/assets/images/John_Snow.png'
-import Team_2_Url from '@/assets/images/team-2.jpg'
-import Team_3_Url from '@/assets/images/team-3.jpg'
-import Team_4_Url from '@/assets/images/team-4.jpg'
-import Logo_Url from '@/assets/images/ltv_logo.png'
 import ProjectTable from './components/ProjectTable.vue'
+import Pagination from 'components/Pagination/index.vue'
 
-interface User {
-  avatarPath: string
-  name: string
-}
-interface Project {
-  projectLogoPath: string
-  project: string
-  budget: string
+export interface ReportDashboard {
+  date: string,
+  report: string
+  form: string
   status: string
-  users: User[]
-  completion: number
+  reporter: string
 }
+
 export default defineComponent({
   name: 'Tables',
   components: {
+    Pagination,
     ProjectTable,
   },
   setup() {
-    const usersData: User[] = [
+    const tableData: ReportDashboard[] = [
       {
-        avatarPath: John_Snow_Url,
-        name: 'Ryan Tompson',
+        date: '2023-09-01',
+        report: 'Nha Be Hospital Report 1',
+        form: 'Tự nguyện',
+        status: 'đang xử lý',
+        reporter: 'Chương Thành Long',
       },
       {
-        avatarPath: Team_2_Url,
-        name: 'Romina Hadid',
+        date: '2023-09-01',
+        report: 'Nha Be Hospital Report 2',
+        form: 'Tự nguyện',
+        status: 'đã duyệt',
+        reporter: 'Chương Thành Long',
       },
       {
-        avatarPath: Team_3_Url,
-        name: 'Alexander Smith',
+        date: '2023-08-26',
+        report: 'Nha Be Report 3',
+        form: 'Tự nguyện',
+        status: 'đã duyệt',
+        reporter: 'Chương Thành Long',
       },
       {
-        avatarPath: Team_4_Url,
-        name: 'Jessica Doe',
-      },
-    ]
-    const tableData: Project[] = [
-      {
-        projectLogoPath: Logo_Url,
-        project: 'Nha Be Hospital Design System',
-        budget: '2500 ',
-        status: 'pending',
-        users: usersData,
-        completion: 60,
+        date: '2023-08-30',
+        report: 'Nha Be Hospital Report 4',
+        form: 'Tự nguyện',
+        status: 'đã duyệt',
+        reporter: 'Chương Thành Long',
       },
       {
-        projectLogoPath: Logo_Url,
-        project: 'Nha Be Hospital Design System',
-        budget: '4000 ',
-        status: 'completed',
-        users: usersData,
-        completion: 40,
+        date: '2023-08-31',
+        report: 'Nha Be Hospital Report 5',
+        form: 'Bắt buộc',
+        status: 'đã duyệt',
+        reporter: 'Chương Thành Long',
       },
       {
-        projectLogoPath: Logo_Url,
-        project: 'Nha Be Hospital',
-        budget: '2500 ',
-        status: 'delayed',
-        users: usersData,
-        completion: 40,
+        date: '2023-08-06',
+        report: 'Nha Be Hospital Report 6',
+        form: 'Tự nguyện',
+        status: 'đã duyệt',
+        reporter: 'Chương Thành Long',
       },
       {
-        projectLogoPath: Logo_Url,
-        project: 'Nha Be Hospital Design',
-        budget: '3300 ',
-        status: 'on schedule',
-        users: usersData,
-        completion: 10,
+        date: '2023-07-30',
+        report: 'Nha Be Hospital Report 7',
+        form: 'Tự nguyện',
+        status: 'đã duyệt',
+        reporter: 'Chương Thành Long',
       },
       {
-        projectLogoPath: Logo_Url,
-        project: 'Nha Be Hospital System',
-        budget: '3000 ',
-        status: 'completed',
-        users: usersData,
-        completion: 20,
+        date: '2023-07-28',
+        report: 'Nha Be Hospital Report 8',
+        form: 'Tự nguyện',
+        status: 'đã duyệt',
+        reporter: 'Chương Thành Long',
+      },
+      {
+        date: '2023-07-15',
+        report: 'Nha Be Hospital Report 9',
+        form: 'Tự nguyện',
+        status: 'đã duyệt',
+        reporter: 'Chương Thành Long',
+      },
+      {
+        date: '2023-06-15',
+        report: 'Nha Be Hospital Report 10',
+        form: 'Tự nguyện',
+        status: 'đã duyệt',
+        reporter: 'Chương Thành Long',
+      },
+      {
+        date: '2023-07-13',
+        report: 'Nha Be Hospital Report 11',
+        form: 'Tự nguyện',
+        status: 'từ chối',
+        reporter: 'Chương Thành Long',
+      },
+      {
+        date: '2023-07-12',
+        report: 'Nha Be Hospital Report 12',
+        form: 'Bắt buộc',
+        status: 'đã duyệt',
+        reporter: 'Chương Thành Long',
       },
     ]
 

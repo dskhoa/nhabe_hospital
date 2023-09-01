@@ -8,19 +8,19 @@
           </el-icon>
         </div>
       </el-breadcrumb-item>
-      <el-breadcrumb-item>
-        <div class="inline-block items-center">
-          <div>
-            <el-link
-              :underline="false"
-              href="#!"
-              class="text-sm text-slate-50 hover:text-white font-semibold"
-            >
-              {{ parentPath }}
-            </el-link>
-          </div>
-        </div>
-      </el-breadcrumb-item>
+<!--      <el-breadcrumb-item>-->
+<!--        <div class="inline-block items-center">-->
+<!--          <div>-->
+<!--            <el-link-->
+<!--              :underline="false"-->
+<!--              href="#!"-->
+<!--              class="text-sm text-slate-50 hover:text-white font-semibold"-->
+<!--            >-->
+<!--              {{ parentPath }}-->
+<!--            </el-link>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </el-breadcrumb-item>-->
       <el-breadcrumb-item>
         <div class="inline-block items-center">
           <div class="text-sm text-slate-200/95 font-semibold">
