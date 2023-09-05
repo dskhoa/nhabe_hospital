@@ -96,9 +96,6 @@
                   <el-button bg class='text-1.5 font-medium w-full' size='large' text @click='isReportIntense = true'>
                     Tạo báo cáo
                   </el-button>
-                  <el-button bg class='text-1.5 font-medium w-full' size='large' text @click='testIntegration'>
-                    Test
-                  </el-button>
                 </div>
               </template>
             </el-card>
