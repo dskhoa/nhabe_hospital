@@ -13,7 +13,3 @@ Nha Be Hospital Dashboard Vue 3, ElementUI &amp; TailwindCSS
 ```
 git checkout cccuong
 yarn serve
-
-## License
-
-[MIT](https://opensource.org/licenses/MIT)
