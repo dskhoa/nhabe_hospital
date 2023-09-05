@@ -1,7 +1,7 @@
 <template>
   <el-config-provider :zIndex='9999'>
-    <AuthLayout v-if='isAuthLayout' />
-    <ReportLayout v-else-if='isReportLayout' />
+    <ReportLayout v-if='isReportLayout' />
+    <AuthLayout v-else-if='isAuthLayout' />
     <DefaultLayout v-else />
   </el-config-provider>
 </template>
@@ -33,8 +33,8 @@ export default defineComponent({
     const isAuthLayout = computed(() => !router.meta?.requiresAuth)
     const isAuthenticated = computed<boolean>(() => store.auth.getAuthenticationState)
     const isReportLayout: ComputedRef<boolean> = computed(() => router.meta?.layout === 'report')
-    console.log(`isAuthLayout ${isAuthLayout} isReportLayout ${isReportLayout}`)
     const initialize = () => {
+      console.log(`isAuthLayout ${isAuthLayout.value} isReportLayout ${isReportLayout.value}`)
       return Promise.resolve()
     }
     initialize().catch((error: Error) => {

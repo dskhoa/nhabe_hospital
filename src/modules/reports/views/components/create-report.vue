@@ -1,5 +1,6 @@
 <template>
   <el-scrollbar
+    v-loading='isLoading'
     class='relative w-full bg-default overflow-y-auto h-screen '
   >
     <el-form v-if='isAnalytic' :model='form' class='report-section' label-position='top' label-width='7vw'>
@@ -13,7 +14,7 @@
         <el-col :span='12'>
           <el-tabs v-model='analyticTab' class='mt-2' type='border-card'>
             <el-tab-pane label='A. Cấp nhân viên' name='employee'>
-              <div class='bg-gray-200 p-4 rounded-md space-y-2 mt-5 mb-5'>
+              <div class='p-4 rounded-md space-y-2 mt-5 mb-5'>
                 <el-card>
                   <template #header>
                     <div class='card-header flex justify-between'>
@@ -104,14 +105,14 @@
                 </el-card>
                 <div class='flex justify-items-end'>
                   <el-form-item class='justify-end'>
-                    <el-button type='primary' @click='onSubmit'>Create</el-button>
+                    <el-button type='primary' @click='onSubmit'>Tạo báo cáo</el-button>
                     <el-button>Cancel</el-button>
                   </el-form-item>
                 </div>
               </div>
             </el-tab-pane>
             <el-tab-pane label='B. Cấp quản lý' name='manager'>
-              <div class='bg-gray-200 p-4 rounded-md space-y-2 mt-5 mb-5'>
+              <div class='p-4 rounded-md space-y-2 mt-5 mb-5'>
                 <el-card>
                   <template #header>
                     <div class='card-header flex justify-between'>
@@ -218,7 +219,7 @@
                 <el-divider></el-divider>
                 <div class='flex justify-items-end'>
                   <el-form-item class='justify-end'>
-                    <el-button type='primary' @click='onSubmit'>Create</el-button>
+                    <el-button type='primary' @click='onSubmit'>Tạo báo cáo</el-button>
                     <el-button>Cancel</el-button>
                   </el-form-item>
                 </div>
@@ -233,9 +234,10 @@
       ref='reportFormRef'
       :model='form'
       class='report-section'
+      hide-required-asterisk
       label-position='top'
       label-width='7vw'
-      size='default'>
+      scroll-to-error>
       <el-row>
         <el-col :span='12'>
           <div class='content-center grid align-middle justify-center items-center w-1/2 fixed h-screen'>
@@ -244,10 +246,18 @@
               của
               Bệnh viện huyện Nhà Bè)
             </span>
+            <el-alert
+              :closable='false'
+              class='mt-2'
+              effect='light'
+              show-icon
+              title='Vui lòng điền đầy đủ các thông tin để tạo báo cáo'
+              type='warning'
+            />
           </div>
         </el-col>
         <el-col :span='12'>
-          <div class='bg-gray-200 p-4 rounded-md space-y-2 mt-5 mb-5'>
+          <div class='p-4 rounded-md space-y-2 mt-5 mb-5'>
             <el-card class='report-card'>
               <template #header>
                 <div class='card-header flex'>
@@ -255,29 +265,28 @@
                     Thông tin người bệnh
                   </h1>
                   <div class='flex flex-row-reverse space-x-4 space-x-reverse'>
-                    <el-form-item prop='reportId' required>
-                      <el-input v-model='form.reportId' class='w-full' clearable placeholder='Số báo cáo'
-                                type='number' />
+                    <el-form-item prop='report_reference' required>
+                      <el-input v-model='form.report_reference' class='w-full' clearable placeholder='Số báo cáo' />
                     </el-form-item>
-                    <el-form-item prop='num_medical' required>
-                      <el-input v-model='form.num_medical' class='w-full' clearable placeholder='Số bệnh án'
-                                type='number' />
+                    <el-form-item prop='client_medical_record_id' required>
+                      <el-input v-model='form.client_medical_record_id' class='w-full' clearable
+                                placeholder='Số bệnh án' />
                     </el-form-item>
                   </div>
                 </div>
               </template>
               <el-row :gutter='20'>
                 <el-col :span='12'>
-                  <el-form-item label='Họ và tên' prop='name' required>
+                  <el-form-item label='Họ và tên' prop='client_fullname' required>
                     <el-input
-                      v-model='form.name'
+                      v-model='form.client_fullname'
                       clearable
                     />
                   </el-form-item>
                 </el-col>
                 <el-col :span='6'>
-                  <el-form-item label='Giới tính' prop='gender' required>
-                    <el-select v-model='form.gender' placeholder='Vui lòng chọn giới tính'>
+                  <el-form-item label='Giới tính' prop='client_gender' required>
+                    <el-select v-model='form.client_gender' placeholder='Vui lòng chọn giới tính'>
                       <el-option label='Nam' value='male' />
                       <el-option label='Nữ' value='female' />
                       <el-option label='Khác' value='other' />
@@ -285,16 +294,18 @@
                   </el-form-item>
                 </el-col>
                 <el-col :span='6'>
-                  <el-form-item label='Ngày sinh' prop='birthdate' required>
+                  <el-form-item label='Ngày sinh' prop='client_birthdate' required>
                     <el-date-picker
-                      v-model='form.birthdate'
+                      v-model='form.client_birthdate'
+                      format='DD/MM/YYYY'
                       type='date'
+                      @change='convertToUTC'
                     />
                   </el-form-item>
                 </el-col>
               </el-row>
-              <el-form-item label='Đối tượng xảy ra sự cố' prop='subject_incident' required>
-                <el-checkbox-group v-model='form.subject_incident' :max='1'>
+              <el-form-item label='Đối tượng xảy ra sự cố' prop='incident_subject' required>
+                <el-checkbox-group v-model='form.incident_subject' :max='1'>
                   <el-checkbox label='Người bệnh' />
                   <el-checkbox label='Người nhà/khách đến thăm' />
                   <el-checkbox label='Nhân viên y tế' />
@@ -312,18 +323,18 @@
               </template>
               <el-row :gutter='20'>
                 <el-col :span='12'>
-                  <el-form-item label='Họ và tên' prop='report.name' required>
-                    <el-input v-model='form.report.name' />
+                  <el-form-item label='Họ và tên' prop='reporter_fullname' required>
+                    <el-input v-model='form.reporter_fullname' />
                   </el-form-item>
                 </el-col>
                 <el-col :span='6'>
-                  <el-form-item label='Số điện thoại' prop='report.phone' required>
-                    <el-input v-model='form.report.phone' type='number'></el-input>
+                  <el-form-item label='Số điện thoại' prop='reporter_phone' required>
+                    <el-input v-model='form.reporter_phone' type='number'></el-input>
                   </el-form-item>
                 </el-col>
                 <el-col :span='6'>
-                  <el-form-item label='Email' prop='report.email' required>
-                    <el-input v-model='form.report.email' type='text'></el-input>
+                  <el-form-item label='Email' prop='reporter_email' required>
+                    <el-input v-model='form.reporter_email' type='text'></el-input>
                   </el-form-item>
                 </el-col>
               </el-row>
@@ -359,6 +370,7 @@
                         v-model='form.issued_date'
                         placeholder='Ngày giờ xảy ra sự cố'
                         type='datetime'
+                        @change='convertToUTC'
                       />
                     </el-form-item>
                   </div>
@@ -367,29 +379,29 @@
               <el-row :gutter='20'>
                 <el-col :span='12'>
                   <el-form-item label='Khoa/phòng/vị trí xảy ra sự cố' prop='incident_location' required>
-                    <el-input v-model='form.incident_location' autosize class='mt-4 mb-4'
+                    <el-input v-model='form.incident_location' :rows='3'
+                              class='mt-4 mb-4'
                               placeholder='Ví dụ: khoa ICU, khuôn viên bệnh viện'
                               type='textarea' />
                   </el-form-item>
                   <el-form-item label='Mô tả ngắn gọn về sự cố' prop='short_description' required>
-                    <el-input v-model='form.short_description' autosize class='mt-4 mb-4' type='textarea' />
+                    <el-input v-model='form.short_description' :rows='3' class='mt-4 mb-4' type='textarea' />
+                  </el-form-item>
+                  <el-form-item label='Điều trị/xử lí ban đầu đã được thực hiện' prop='performed_treatment' required>
+                    <el-input v-model='form.performed_treatment' :rows='3' class='mt-4 mb-4' type='textarea' />
                   </el-form-item>
                 </el-col>
                 <el-col :span='12'>
                   <el-form-item label='Vị trí cụ thể' prop='exact_location' required>
-                    <el-input v-model='form.exact_location' autosize class='mt-4 mb-4'
+                    <el-input v-model='form.exact_location' :rows='3'
+                              class='mt-4 mb-4'
                               placeholder='ví dụ: nhà vệ sinh, bãi đậu xe....'
                               type='textarea' />
                   </el-form-item>
                   <el-form-item label='Đề xuất giải pháp ban đầu' prop='proposal_solution' required>
-                    <el-input v-model='form.proposal_solution' autosize class='mt-4 mb-4' type='textarea' />
+                    <el-input v-model='form.proposal_solution' :rows='3' class='mt-4 mb-4' type='textarea' />
                   </el-form-item>
                 </el-col>
-              </el-row>
-              <el-row>
-                <el-form-item label='Điều trị/xử lí ban đầu đã được thực hiện' prop='performed_treatment' required>
-                  <el-input v-model='form.performed_treatment' autosize class='mt-4 mb-4' type='textarea' />
-                </el-form-item>
               </el-row>
             </el-card>
             <el-card class='report-card'>
@@ -496,8 +508,8 @@
                       </div>
                     </template>
                     <div class='flex flex-row-reverse space-x-4 space-x-reverse'>
-                      <el-form-item prop='impact_classification' required>
-                        <el-checkbox-group v-model='form.impact_classification' :max='1'>
+                      <el-form-item prop='impact_assessment' required>
+                        <el-checkbox-group v-model='form.impact_assessment' :max='1'>
                           <el-checkbox label='Nặng' />
                           <el-checkbox label='Trung bình' />
                           <el-checkbox label='nhẹ' />
@@ -511,8 +523,8 @@
 
             <div class='flex justify-items-end'>
               <el-form-item class='justify-end'>
-                <el-button type='primary' @click='submitForm(reportFormRef)'>Create</el-button>
-                <el-button @click='resetForm(reportFormRef)'>Reset</el-button>
+                <el-button type='primary' @click='submitForm(reportFormRef)'>Tạo báo cáo</el-button>
+                <el-button @click='resetForm(reportFormRef)'>Khôi phục</el-button>
               </el-form-item>
             </div>
           </div>
@@ -523,15 +535,23 @@
 </template>
 
 <script lang='ts' setup>
-import { computed, h, onMounted, reactive, ref } from 'vue'
+import cloneDeep from 'lodash.clonedeep';
+import { computed, markRaw, onMounted, reactive, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import type { FormInstance } from 'element-plus'
-import { ElMessage } from 'element-plus'
+import { ElLoading, ElMessage, ElMessageBox } from 'element-plus'
+import { convertToUTC } from 'utils/index'
+import dayjs from 'dayjs'
+import { Download } from '@element-plus/icons-vue'
+import { createReport } from '../../../../services/reports/getReports'
+import { PDFDocument} from 'pdf-lib';
+import BM01 from '@/assets/fillable_pdf/BM01.pdf'
 
 const router = useRoute()
 const isAnalytic = computed(() => router.query.reportForm === 'analytic')
 const analyticTab = ref('employee')
 const reportFormRef = ref<FormInstance>()
+const isLoading = ref(false)
 
 const analyticForm = reactive(
   {
@@ -557,12 +577,13 @@ const analyticForm = reactive(
 )
 
 const form = reactive({
-  reportId: '',
-  name: '',
-  num_medical: '',
-  gender: '',
-  birthdate: '',
-  subject_incident: ref([]),
+  form: router.query.reportType == 'voluntary' ? 'is_voluntary' : 'is_required',
+  report_reference: '',
+  client_fullname: '',
+  client_medical_record_id: '',
+  client_gender: '',
+  client_birthdate: '',
+  incident_subject: ref([]),
   incident_location: '',
   exact_location: '',
   issued_date: '',
@@ -573,18 +594,16 @@ const form = reactive({
   is_recorded: ref([]),
   is_family_noticed: ref([]),
   is_client_noticed: ref([]),
-  report: reactive({
-    name: '',
-    phone: '',
-    email: '',
-  }),
+  reporter_fullname: '',
+  reporter_phone: '',
+  reporter_email: '',
   incident_classification: ref([]),
-  impact_classification: ref([]),
+  impact_assessment: ref([]),
   title: ref([]),
   observer_1: '',
   observer_2: '',
-  created_at: new Date(),
-  updated_at: new Date(),
+  created_at: dayjs.utc(new Date()).local(),
+  updated_at: dayjs.utc(new Date()).local(),
 })
 
 const technicalProcess = [
@@ -892,17 +911,110 @@ const submitForm = async (formEl: FormInstance | undefined) => {
   if (!formEl) return
   await formEl.validate((valid, fields) => {
     if (valid) {
-      ElMessage({
-        message: h('p', null, [
-          h('span', null, 'Message can be '),
-          h('i', { style: 'color: teal' }, 'submit!'),
-        ]),
-        type: 'success',
+
+      const copyForm = cloneDeep(form);
+
+      for (const key in form) {
+        //@ts-ignore
+        if (Array.isArray(form[key])) {
+          //@ts-ignore
+          form[key] = form[key][0]
+        }
+
+        if (['is_informed', 'is_recorded', 'is_family_noticed', 'is_client_noticed'].includes(key)) {
+          const boolean_mapping = {
+            'Có': 'yes',
+            'Không': 'no',
+            'Không ghi nhận': 'not_acknowledged',
+          }
+          mapValue(copyForm, key, boolean_mapping)
+        }
+
+        if (key == 'incident_classification') {
+          const incident_classification_mapping = {
+            'Chưa xảy ra': 'not_happen',
+            'Đã xảy ra': 'happen',
+          }
+          mapValue(copyForm, key, incident_classification_mapping)
+        }
+
+        if (key == 'incident_subject') {
+          const incident_subject_mapping = {
+            'Người bệnh': 'client',
+            'Người nhà/khách đến thăm': 'visitor',
+            'Nhân viên y tế': 'staff',
+            'Trang thiết bị/cơ sở hạ tầng': 'infrastructure',
+          }
+          //@ts-ignore
+          mapValue(copyForm, key, incident_subject_mapping)
+        }
+
+        if (key == 'impact_assessment') {
+          const impact_assessment_mapping = {
+            'Nặng': 'hard',
+            'Trung bình': 'medium',
+            'Nhẹ': 'light',
+          }
+          mapValue(copyForm, key, impact_assessment_mapping)
+        }
+
+        if (key == 'title') {
+          const title_mapping = {
+            'Điều dưỡng': 'nurse',
+            'Bác sĩ': 'doctor',
+            'Người bệnh': 'client',
+            'Người nhà/khách đến thăm': 'visitor',
+            'Khác': 'other',
+          }
+          mapValue(copyForm, key, title_mapping)
+        }
+      }
+
+      const payload = JSON.stringify(copyForm)
+
+      const loading = ElLoading.service({
+        lock: true,
+        text: 'Báo cáo đang được tạo và gửi đi',
+        background: 'rgba(0, 0, 0, 0.7)',
       })
-      // Send to BE and filled in data
+
+      createReport(JSON.parse(payload)).then((response) => {
+        if (!response.report) {
+          ElMessage({
+            message: 'Có lỗi xảy ra, vui lòng thử lại sau',
+            type: 'error',
+          })
+        } else {
+          loading.close()
+          ElMessageBox.confirm(
+            'Báo cáo của bạn đã được tạo và gửi đi. Bạn có muốn tải file pdf không?',
+            'Thành công',
+            {
+              confirmButtonText: 'Tải pdf',
+              cancelButtonText: 'Hủy',
+              type: 'success',
+              icon: markRaw(Download),
+            },
+          )
+            .then(() => {
+              fillPDFForm(copyForm)
+              ElMessage({
+                type: 'success',
+                message: 'Tải về thành công',
+              })
+            })
+            .catch(() => {
+              ElMessage({
+                type: 'info',
+                message: 'Hủy tải về',
+              })
+            })
+        }
+      })
+
     } else {
       ElMessage({
-        message: 'Vui lòng hoàn thiện các thông tin yêu cầu.',
+        message: 'Vui lòng hoàn thiện các thông tin yêu cầu để tiếp tục.',
         grouping: true,
         showClose: true,
         type: 'error',
@@ -911,17 +1023,161 @@ const submitForm = async (formEl: FormInstance | undefined) => {
   })
 }
 
+
+const mapValue = (form: any, key: string, mapping: any) => {
+  form[key] = mapping[form[key]]
+}
+
 const resetForm = (formEl: FormInstance | undefined) => {
   if (!formEl) return
   formEl.resetFields()
 }
+
+const fillPDFForm = async (copyForm) => {
+  const formType = router.query.reportType == 'voluntary' ? 'is_voluntary' : 'is_required'
+
+
+  const created_at = dayjs(copyForm.created_at)
+  const issued_day = dayjs(copyForm.issued_date)
+
+  const created_day = created_at.date();
+  const created_month = created_at.month() + 1; // Months are zero-based, so we add 1
+  const created_year = created_at.year();
+
+  const issued_date = issued_day.date();
+  const issued_month = issued_day.month() + 1; // Months are zero-based, so we add 1
+  const issued_year = issued_day.year();
+
+  const hours = issued_day.format('HH');
+  const minutes = issued_day.format('mm');
+  const seconds = issued_day.format('ss');
+
+
+  const normalMappingToPdf = {
+    'report_id': copyForm.report_reference,
+    'unit': copyForm.unit,
+    'client_fullname': copyForm.client_fullname,
+    'client_medical_record_id': copyForm.client_medical_record_id,
+    'client_birthdate': dayjs(copyForm.client_birthdate).format('DD/MM/YYYY'),
+    'client_gender': copyForm.client_gender,
+    'department': copyForm.department,
+    'created_day': created_day.toString(),
+    'created_month': created_month.toString(),
+    'created_year': created_year.toString(),
+    'issued_date': issued_date.toString(),
+    'issued_month': issued_month.toString(),
+    'issued_year': issued_year.toString(),
+    'issued_time': `${hours}:${minutes}:${seconds}`,
+    'incident_location': copyForm.incident_location,
+    'exact_location': copyForm.exact_location,
+    'short_description': copyForm.short_description,
+    'proposal_solution': copyForm.proposal_solution,
+    'performed_treatment': copyForm.performed_treatment,
+    'reporter_name': copyForm.reporter_fullname,
+    'reporter_phone': copyForm.reporter_phone,
+    'reporter_email': copyForm.reporter_email,
+    'observer_1': copyForm.observer_1,
+    'observer_2': copyForm.observer_2,
+  }
+
+  const pdfBytes = await fetch(BM01).then((res) => res.arrayBuffer());
+  const pdfDoc = await PDFDocument.load(pdfBytes);
+
+  const pdfForm = pdfDoc.getForm();
+
+  // Handle form type
+  if (formType == 'is_voluntary') {
+    const formCheckbox = pdfForm.getCheckBox('voluntary_form')
+    formCheckbox.check()
+  } else {
+    const formCheckbox = pdfForm.getCheckBox('compulsory_form')
+    formCheckbox.check()
+  }
+
+  // Handle incident subject
+  for (const key of ['client_incident_subject', 'visitor_incident_subject', 'staff_incident_subject'].values()) {
+    //@ts-ignore
+    if (pdfForm.getCheckBox(key) && key.includes(copyForm['incident_subject'])) {
+      pdfForm.getCheckBox(key).check()
+    }
+  }
+
+  for (const key of ['yes_is_informed', 'no_is_informed', 'no_acknowledged'].values()) {
+    //@ts-ignore
+    if (pdfForm.getCheckBox(key) && key.includes(copyForm['is_informed'])) {
+      pdfForm.getCheckBox(key).check()
+    }
+  }
+
+  // for (const key of ['yes_is_client_informed', 'no_is_client_informed', 'no_acknowledged_client_noticed'].values()) {
+  //   //@ts-ignore
+  //   if (pdfForm.getCheckBox(key) && key.includes(copyForm['is_client_informed'])) {
+  //     pdfForm.getCheckBox(key).check()
+  //   }
+  // }
+
+  for (const key of ['yes_is_family_noticed', 'no_is_family_noticed', 'no_acknowledged_family_noticed'].values()) {
+    //@ts-ignore
+    if (pdfForm.getCheckBox(key) && key.includes(copyForm['is_family_noticed'])) {
+      pdfForm.getCheckBox(key).check()
+    }
+  }
+
+  for (const key of ['nursing_title', 'client_title', 'visitor_title', 'doctor_title', 'other_title'].values()) {
+    //@ts-ignore
+    if (pdfForm.getCheckBox(key) && key.includes(copyForm['title'])) {
+      pdfForm.getCheckBox(key).check()
+    }
+  }
+
+
+  // Handle incident classification
+  for (const key of ['not_happen_incident_classification', 'happen_incident_classification'].values()) {
+    //@ts-ignore
+    if (pdfForm.getCheckBox(key) && key.includes(form[key])) {
+      pdfForm.getCheckBox(key).check()
+    }
+  }
+
+  // Handle impact assessment
+  for (const key of ['light_impact_assessment', 'medium_impact_assessment', 'hard_impact_assessment'].values()) {
+    //@ts-ignore
+    if (pdfForm.getCheckBox(key) && key.includes(form[key])) {
+      pdfForm.getCheckBox(key).check()
+    }
+  }
+
+  for (const key in normalMappingToPdf) {
+    //@ts-ignore
+    pdfForm.getTextField(key).setText(normalMappingToPdf[key])
+
+  }
+
+  // form.getTextField('form').setText('blabla');
+  const modifiedPdfBytes = await pdfDoc.save();
+
+  const blob = new Blob([modifiedPdfBytes], { type: 'application/pdf' });
+
+  // Create a temporary URL for the Blob
+  const url = URL.createObjectURL(blob);
+
+  // Create a link element and set its attributes
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = 'filled_form.pdf';
+
+  // Append the link to the document body and trigger the download
+  document.body.appendChild(link);
+  link.click();
+
+  // Clean up the temporary URL and link element
+  URL.revokeObjectURL(url);
+  link.remove();
+}
+
 </script>
 
 <style>
-.report-card {
-  background: whitesmoke;
-}
-
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   /* display: none; <- Crashes Chrome on hover */
@@ -931,5 +1187,9 @@ input::-webkit-inner-spin-button {
 
 input[type=number] {
   -moz-appearance: textfield; /* Firefox */
+}
+
+body .el-input__inner {
+  height: -webkit-fill-available !important;
 }
 </style>

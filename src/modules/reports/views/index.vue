@@ -1,87 +1,154 @@
 <template>
-  <div class='report-page'>
-    <div class='centered-container'>
-      <el-image :src='MedicalReportBanner' fit='contain' />
-      <el-space>
-        <el-button @click='dialogTableVisible = true;' size='large' class='mt-12'>
-          Tạo báo cáo sự cố y khoa
-        </el-button>
-        <!--        <el-button @click="openAnalyticForm" size="large" class="mt-12">-->
-        <!--          Tạo mẫu tìm hiểu và phân tích sự cố-->
-        <!--        </el-button>-->
-      </el-space>
-    </div>
-    <div class='dialog'>
-      <el-drawer v-model='dialogTableVisible' title='DANH MỤC SỰ CỐ Y KHOA'
-                 :close-on-click-modal='false' align-center size='100%' direction='ttb'>
-        <el-tabs v-model='tabPosition' class='demo-tabs' @tab-click='handleClick' type='card'>
-          <el-tab-pane label='Tự nguyện' name='voluntary'>
-            <span class='my-3 p-5 text-sm font-extralight'>Vui lòng chọn sự cố y khoa để tiếp tục báo cáo.&nbsp;Đối với báo cáo tự nguyện, các sự cố được chia theo mức độ nghiêm trọng từ NC0 cho đến NC2</span>
-            <el-cascader-panel
-              v-model='shortIncidentDescription'
-              :options='incidentCascade'
-              :show-all-levels='false'
-              size='large'
-              @change='handleChange'
-              @expand-change='handleNC3Change'
-              class='mt-2'
-            />
-          </el-tab-pane>
-          <el-tab-pane label='Bắt buộc' name='required'>
-            <el-table :data='nc3IncidentGridData' style='width: 100%'>
-              <el-table-column type='index' :index='indexMethod' />
-              <el-table-column property='incident' label='Tên sự cố'>
-                <template #default='{ row }'>
-                  <div v-html='addNewLine(row.incident)'></div>
-                </template>
-              </el-table-column>
-              <el-table-column property='type' label='Loại sự cố' width='200'>
-                <template #default='{ row }'>
-                  <span>{{ mappingTypeToDisplay(row.type) }}</span>
-                </template>
-              </el-table-column>
-            </el-table>
-            <el-checkbox class='mt-5' v-model='isConfirm' label='isConfirm' size='large' :disabled='isConfirm'>Nếu đã
-              đọc
-              kĩ các danh mục phía
-              trên, vui lòng chọn sự cố y khoa sau để tiếp tục báo cáo.
-            </el-checkbox>
-            <el-checkbox-group v-show='isConfirm' v-model='nc3Checkbox' size='large' @change='handleCheckbox' :max='1'>
-              <el-checkbox-button label='Sự cố đã xảy ra gây nguy hại kéo dài, để lại di chứng' size='large'>Sự cố đã
-                xảy ra gây nguy hại kéo dài, để lại di chứng
-              </el-checkbox-button>
-              <el-checkbox-button label='Sự cố đã xảy ra gây nguy hại cần phải hồi sức tích cực' size='large'>Sự cố đã
-                xảy ra gây nguy hại cần phải hồi sức tích cực
-              </el-checkbox-button>
-              <el-checkbox-button label='Sự cố đã xảy ra có ảnh hưởng hoặc trực tiếp gây tử vong' size='large'>Sự cố đã
-                xảy ra có ảnh hưởng hoặc trực tiếp gây tử vong
-              </el-checkbox-button>
-            </el-checkbox-group>
-          </el-tab-pane>
-        </el-tabs>
-
-
-        <template #footer>
-          <el-button @click='clearSelectedIncident' size='large' type='danger' plain>Xóa lựa chọn</el-button>
-          <el-button :disabled='!reportType || !isReady' @click='openReportForm' plain size='large'>Tạo báo cáo
+  <div class='main-page'>
+    <div v-if='isReportIntense' class='report-page'>
+      <div class='centered-container'>
+        <el-image :src='MedicalReportBanner' fit='contain' />
+        <el-space>
+          <el-button class='mt-12' size='large' @click='dialogTableVisible = true;'>
+            Tạo báo cáo sự cố y khoa
           </el-button>
-        </template>
-      </el-drawer>
+          <!--        <el-button @click="openAnalyticForm" size="large" class="mt-12">-->
+          <!--          Tạo mẫu tìm hiểu và phân tích sự cố-->
+          <!--        </el-button>-->
+        </el-space>
+      </div>
+      <div class='dialog'>
+        <el-drawer v-model='dialogTableVisible' :close-on-click-modal='false'
+                   align-center direction='ttb' size='100%' title='DANH MỤC SỰ CỐ Y KHOA'>
+          <el-tabs v-model='tabPosition' class='demo-tabs' type='card' @tab-click='handleClick'>
+            <el-tab-pane label='Tự nguyện' name='voluntary'>
+              <span class='my-3 p-5 text-sm font-extralight'>Vui lòng chọn sự cố y khoa để tiếp tục báo cáo.&nbsp;Đối với báo cáo tự nguyện, các sự cố được chia theo mức độ nghiêm trọng từ NC0 cho đến NC2</span>
+              <el-cascader-panel
+                v-model='shortIncidentDescription'
+                :options='incidentCascade'
+                :show-all-levels='false'
+                class='mt-2'
+                size='large'
+                @change='handleChange'
+                @expand-change='handleNC3Change'
+              />
+            </el-tab-pane>
+            <el-tab-pane label='Bắt buộc' name='required'>
+              <el-table :data='nc3IncidentGridData' style='width: 100%'>
+                <el-table-column :index='indexMethod' type='index' />
+                <el-table-column label='Tên sự cố' property='incident'>
+                  <template #default='{ row }'>
+                    <div v-html='addNewLine(row.incident)'></div>
+                  </template>
+                </el-table-column>
+                <el-table-column label='Loại sự cố' property='type' width='200'>
+                  <template #default='{ row }'>
+                    <span>{{ mappingTypeToDisplay(row.type) }}</span>
+                  </template>
+                </el-table-column>
+              </el-table>
+              <el-checkbox v-model='isConfirm' :disabled='isConfirm' class='mt-5' label='isConfirm' size='large'>Nếu đã
+                đọc
+                kĩ các danh mục phía
+                trên, vui lòng chọn sự cố y khoa sau để tiếp tục báo cáo.
+              </el-checkbox>
+              <el-checkbox-group v-show='isConfirm' v-model='nc3Checkbox' :max='1' size='large'
+                                 @change='handleCheckbox'>
+                <el-checkbox-button label='Sự cố đã xảy ra gây nguy hại kéo dài, để lại di chứng' size='large'>Sự cố đã
+                  xảy ra gây nguy hại kéo dài, để lại di chứng
+                </el-checkbox-button>
+                <el-checkbox-button label='Sự cố đã xảy ra gây nguy hại cần phải hồi sức tích cực' size='large'>Sự cố đã
+                  xảy ra gây nguy hại cần phải hồi sức tích cực
+                </el-checkbox-button>
+                <el-checkbox-button label='Sự cố đã xảy ra có ảnh hưởng hoặc trực tiếp gây tử vong' size='large'>Sự cố
+                  đã
+                  xảy ra có ảnh hưởng hoặc trực tiếp gây tử vong
+                </el-checkbox-button>
+              </el-checkbox-group>
+            </el-tab-pane>
+          </el-tabs>
+
+
+          <template #footer>
+            <el-button plain size='large' type='danger' @click='clearSelectedIncident'>Xóa lựa chọn</el-button>
+            <el-button :disabled='!reportType || !isReady' plain size='large' @click='openReportForm'>Tạo báo cáo
+            </el-button>
+          </template>
+        </el-drawer>
+      </div>
+    </div>
+    <div v-else class='instruction-page flex items-center justify-center h-screen'>
+      <el-space direction='vertical'>
+        <img :src='LogoNhabe' alt='logo nha be' height='100' width='100'>
+        <span
+          class='text-3xl font-black align-bottom'>Chào mừng đến với hệ thống báo cáo y khoa của Bệnh viện Nhà Bè</span>
+        <span class='text-1.1 italic font-thin'>Vui lòng chọn tạo báo cáo hoặc truy cập bảng điều khiển (chỉ dành cho nhân viên bệnh viện)</span>
+        <el-row :gutter='20' class='mt-5'>
+          <el-col :span='12'>
+            <el-card class='box-card'>
+              <template #header>
+                <div class='card-header'>
+                  <img
+                    :src='NhaBeHospitalReport'
+                    alt='nhabe_create_image'
+                    class='image'
+                    height='300'
+                    width='500' />
+                </div>
+              </template>
+              <template #default>
+                <div class='text-center'>
+                  <el-button bg class='text-1.5 font-medium w-full' size='large' text @click='isReportIntense = true'>
+                    Tạo báo cáo
+                  </el-button>
+                  <el-button bg class='text-1.5 font-medium w-full' size='large' text @click='testIntegration'>
+                    Test
+                  </el-button>
+                </div>
+              </template>
+            </el-card>
+          </el-col>
+          <el-col :span='12'>
+            <el-card class='box-card'>
+              <template #header>
+                <div class='card-header'>
+                  <img
+                    :src='NhaBeHospitalDashboard'
+                    alt='nhabe_dashboard_image'
+                    class='image'
+                    height='300'
+                    width='500' />
+                </div>
+              </template>
+              <template #default>
+                <div class='text-center'>
+                  <el-button bg class='text-1.5 font-medium w-full' size='large' text type='success'
+                             @click='$router.push("/dashboard")'>Truy cập bảng điều
+                    khiển
+                  </el-button>
+                </div>
+              </template>
+            </el-card>
+          </el-col>
+        </el-row>
+      </el-space>
     </div>
   </div>
 </template>
 
 <script lang='ts'>
-import { defineComponent, reactive, ref } from 'vue'
-import { useRouter } from 'vue-router'
+import { ref } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 
 import MedicalReportBanner from '@/assets/images/medical_report_banner.png'
 import IncidentCascadeJson from '@/assets/json/incident_cascade_voluntary.json'
 
 import { DocumentAddIcon } from '@heroicons/vue/outline'
-import { ElMessage, ElLoading, ElCascaderPanel } from 'element-plus'
+import { ElCascaderPanel, ElLoading, ElMessage } from 'element-plus'
 
 import { addNewLine, indexMethod } from 'utils/index'
+
+import NhaBeHospitalReport from '@/assets/images/nhabe_report_create.png'
+import NhaBeHospitalDashboard from '@/assets/images/nhabe_report_dashboard.png'
+import LogoNhabe from '@/assets/images/nhabe_logo.png'
+import BM01 from '@/assets/fillable_pdf/BM01.pdf'
+import { getListReport} from '../../../services/reports/getReports'
+import { PDFDocument } from 'pdf-lib'
 
 
 export default {
@@ -96,6 +163,7 @@ export default {
     const isConfirm = ref(false)
     const nc3Checkbox = ref([])
     const isReady = ref(false)
+    const isReportIntense = ref(false)
 
     const openReportForm = () => {
       if (reportType.value === '') {
@@ -349,6 +417,12 @@ export default {
       }
     }
 
+
+    const testIntegration = () => {
+      // fillPDFForm()
+      // getListReport(2)
+    }
+
     return {
       MedicalReportBanner,
       DocumentAddIcon,
@@ -372,6 +446,11 @@ export default {
       nc3Checkbox,
       handleCheckbox,
       isReady,
+      isReportIntense,
+      NhaBeHospitalReport,
+      NhaBeHospitalDashboard,
+      LogoNhabe,
+      testIntegration,
     }
   },
 }
@@ -399,5 +478,9 @@ export default {
 
 .dialog-footer button:first-child {
   margin-right: 10px;
+}
+
+.image {
+  display: block;
 }
 </style>

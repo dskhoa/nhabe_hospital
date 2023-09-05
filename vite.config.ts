@@ -23,7 +23,23 @@ export default defineConfig({
   server: {
     watch: {
       usePolling: true,
-    }
+    },
+    host: '0.0.0.0',
+    port: 3000,
+    proxy: {
+      '/token': {
+        target: "http://localhost:8000/token",
+        rewrite: (path) => path.replace(/^\/token/, '')
+      },
+      '/report': {
+        target: 'http://localhost:8000/report',
+        rewrite: (path) => path.replace(/^\/report/, '')
+      },
+      '/user': {
+        target: 'http://localhost:8000/user',
+        rewrite: (path) => path.replace(/^\/user/, '')
+      },
+    },
   },
   resolve: {
     alias: {

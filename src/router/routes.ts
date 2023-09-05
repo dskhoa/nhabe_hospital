@@ -5,6 +5,7 @@ import {
   ChartBarIcon,
 } from '@heroicons/vue/outline'
 import ProjectTable from 'modules/table/views/components/ProjectTable.vue'
+import ReportDetail from 'modules/table/views/components/ReportDetail.vue'
 
 const Login = () => import('modules/auth/views/login.vue')
 const NotFound = () => import('modules/pages/views/404.vue')
@@ -13,7 +14,6 @@ const Profile = () => import('modules/profile/views/index.vue')
 const Reports = () => import('modules/reports/views/index.vue')
 const CreateReport = () => import('modules/reports/views/components/create-report.vue')
 const ReportsTable = () => import('modules/table/views/index.vue')
-
 
 const routes = [
   {

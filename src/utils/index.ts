@@ -1,4 +1,9 @@
 import dayjs from 'dayjs'
+import utc from 'dayjs/plugin/utc'
+import timezone from 'dayjs/plugin/timezone'
+
+dayjs.extend(utc);
+dayjs.extend(timezone);
 
 export const formatDate = (date: Date, format: string = 'hh:mm') => {
   return dayjs(date).format(format)
@@ -23,4 +28,9 @@ export const transformList = (originalList: any[], key: string): any[] => {
     text: value,
     value: value,
   }))
+}
+
+export const convertToUTC = (value: any) => {
+  // Convert the selected date to the local time zone
+  return dayjs.utc(value).local()
 }

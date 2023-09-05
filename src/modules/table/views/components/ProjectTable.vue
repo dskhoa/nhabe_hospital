@@ -1,6 +1,7 @@
 <template>
   <div class='w-full'>
-    <el-table ref='tableRef' :class='`is-${theme}`' :data='tableData' row-key='date' stripe style='width: 100%'>
+    <el-table ref='tableRef' :class='`is-${theme}`' :data='tableData' row-key='date' stripe style='width: 100%'
+              height='70vh'>
       <el-table-column
         :filter-method='filterHandler'
         :filters=filterDateList
@@ -72,29 +73,48 @@
       </el-table-column>
       <el-table-column fixed='right' label='THAO TÁC' width='200'>
         <template #default='scope'>
-          <el-button link size='small' type='primary'>Chi tiết
+          <el-button plain link size='small' type='primary' @click='openDetail'>Chi tiết
           </el-button
           >
-          <el-button v-show="scope.row.form === 'Bắt buộc'" link size='small' type='primary' @click='openAnalyticForm'>
-            Tạo phân
-            tích
+          <el-button v-show="scope.row.form === 'Bắt buộc'" link size='small' type='primary' @click='openAnalyticForm'
+                     plain>Tạo phân tích
           </el-button>
         </template>
       </el-table-column>
     </el-table>
+    <el-drawer v-model='isReportDetail' direction='rtl' size='50%'>
+      <template #header>
+        <h1>Báo cáo
+          {{ reportStore.reportState.form === 'voluntary' ? reportStore.reportState.form === 'tự nguyện' : 'bắt buộc'
+          }}</h1>
+      </template>
+      <template #default>
+        <ReportDetail />
+      </template>
+      <template #footer>
+        <div style='flex: auto'>
+          <el-button plain size='large'>Từ chối</el-button>
+          <el-button type='primary' size='large' plain>Xác nhận</el-button>
+        </div>
+      </template>
+    </el-drawer>
   </div>
 </template>
 <script lang='ts'>
-import { defineComponent, ref } from 'vue'
+import { defineComponent, reactive, ref } from 'vue'
 import { DotsVerticalIcon } from '@heroicons/vue/outline'
 import { ElLoading, TableColumnCtx, TableInstance } from 'element-plus'
 import { ReportDashboard } from '../index.vue'
 import { transformList } from 'utils/index'
 import { useRouter } from 'vue-router'
+import { useReportStore } from 'modules/reports/store/state'
+import ReportDetail from 'modules/table/views/components/ReportDetail.vue'
 
 export default defineComponent({
   name: 'ProjectTable',
+  methods: { useReportStore },
   components: {
+    ReportDetail,
     DotsVerticalIcon,
   },
   props: {
@@ -125,7 +145,6 @@ export default defineComponent({
     }
 
     const filterDateList = transformList(props.tableData, 'date')
-    console.log(`filterDateList`, filterDateList)
     const filterStatusList = transformList(props.tableData, 'status')
     const filterFormList = transformList(props.tableData, 'form')
     const filterReporterList = transformList(props.tableData, 'reporter')
@@ -135,7 +154,6 @@ export default defineComponent({
       row: ReportDashboard,
       column: TableColumnCtx<ReportDashboard>,
     ) => {
-      console.log(column)
       const property = column['property']
       // @ts-ignore
       return row[property] === value
@@ -153,6 +171,47 @@ export default defineComponent({
       }, 1500)
     }
 
+    // This will be dynamic
+    const form = reactive({
+      reportId: '12345',
+      name: 'John Doe',
+      form: 'voluntary',
+      num_medical: '1234567890',
+      gender: 'male',
+      birthdate: '1990-01-01',
+      subject_incident: ref(['client']),
+      incident_location: 'Location',
+      exact_location: 'Exact Location',
+      issued_date: '2022-01-01',
+      short_description: 'Short Description',
+      proposal_solution: 'Proposal Solution',
+      performed_treatment: 'Performed Treatment',
+      is_informed: ref(['no']),
+      is_recorded: ref(['yes']),
+      is_family_noticed: ref(['no']),
+      is_client_noticed: ref(['yes']),
+      report: reactive({
+        name: 'Reporter Name',
+        phone: '1234567890',
+        email: 'reporter@example.com',
+      }),
+      incident_classification: ref(['happen']),
+      impact_classification: ref(['hard']),
+      title: ref(['title1']),
+      observer_1: 'Observer 1',
+      observer_2: 'Observer 2',
+      created_at: new Date(),
+      updated_at: new Date(),
+    })
+
+    const isReportDetail = ref(false)
+    const reportStore = useReportStore()
+    const openDetail = () => {
+      reportStore.saveReportState(form)
+      window.history.replaceState(null, '', `/dashboard/reports/${reportStore.reportState.report_id}`)
+      isReportDetail.value = true
+    }
+
     return {
       customColorMethod,
       filterDateList,
@@ -162,6 +221,9 @@ export default defineComponent({
       clearFilter,
       filterHandler,
       openAnalyticForm,
+      openDetail,
+      isReportDetail,
+      reportStore,
     }
   },
 })

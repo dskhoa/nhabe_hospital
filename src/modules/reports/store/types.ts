@@ -1,4 +1,4 @@
-import {reactive, ref} from "vue";
+import { reactive, ref } from 'vue'
 
 export interface ReportState {
   id: number;
@@ -23,10 +23,12 @@ export interface ReportState {
   is_client_noticed: BooleanChoices;
   incident_classification: IncidentClassification;
   impact_assessment: ImpactAssessment;
-  reporter: string; // Assuming user_id is of type string
+  reporter_fullname: string; // Assuming user_id is of type string
+  reporter_phone: string; // Assuming user_id is of type string
+  reporter_email: string; // Assuming user_id is of type string
   observer_1: string;
   observer_2: string;
-  title: string[];
+  title: string;
   status: string;
   created_at: string;
   updated_at: string;
@@ -52,37 +54,37 @@ export interface AnalysisState {
 }
 
 export enum ReportsForm {
-  Voluntary = "Voluntary",
-  Required = "Required"
+  voluntary = 'Voluntary',
+  required = 'Required'
 
   // Define the structure of the reports_form object if needed
 }
 
 export enum Genders {
-  Male = "male",
-  Female = "female"
+  male = 'male',
+  female = 'female'
 }
 
 export enum IncidentSubjects {
-  Client = "client",
-  Visitor = "visitor",
-  Staff = "staff",
-  Infrastructure = "infrastructure"
+  client = 'client',
+  visitor = 'visitor',
+  staff = 'staff',
+  infrastructure = 'infrastructure'
 }
 
 export enum BooleanChoices {
-  Yes = "yes",
-  No = "no",
-  NotAcknowledged = "not_acknowledged"
+  yes = 'yes',
+  no = 'no',
+  notAcknowledged = 'not_acknowledged'
 }
 
 export enum IncidentClassification {
-  Happen = "happen",
-  NotHappen = "not_happen"
+  happen = 'happen',
+  notHappen = 'not_happen'
 }
 
 export enum ImpactAssessment {
-  Hard = "hard",
-  Medium = "medium",
-  Light = "light"
+  hard = 'hard',
+  medium = 'medium',
+  light = 'light'
 }

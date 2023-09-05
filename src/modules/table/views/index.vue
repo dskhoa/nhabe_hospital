@@ -120,6 +120,27 @@ export default defineComponent({
         status: 'đã duyệt',
         reporter: 'Chương Thành Long',
       },
+      {
+        date: '2023-07-13',
+        report: 'Nha Be Hospital Report 13',
+        form: 'Bắt buộc',
+        status: 'đã duyệt',
+        reporter: 'Chương Thành Long',
+      },
+      {
+        date: '2023-07-16',
+        report: 'Nha Be Hospital Report 14',
+        form: 'Bắt buộc',
+        status: 'đã duyệt',
+        reporter: 'Chương Thành Long',
+      },
+      {
+        date: '2023-07-17',
+        report: 'Nha Be Hospital Report 15',
+        form: 'Bắt buộc',
+        status: 'đã duyệt',
+        reporter: 'Chương Thành Long',
+      },
     ]
 
     return {

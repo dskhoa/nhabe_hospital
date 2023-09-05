@@ -1,8 +1,6 @@
 # nhabe-dashboard-vue3
 
-Nha Be Hospital Dashboard Vue 3, ElementUI &amp; TailwindCSS - Inspired by [Creative Tim](https://www.creative-tim.com/product/vue-nhabe-dashboard)
-
-![Hi](/src/assets/images/dashboard.png)
+Nha Be Hospital Dashboard Vue 3, ElementUI &amp; TailwindCSS
 
 ## Nice stack (VET)
 
