@@ -9,6 +9,11 @@ Nha Be Hospital Dashboard Vue 3, ElementUI &amp; TailwindCSS
 - [TailwindCSS 3](https://tailwindcss.com)
 - [Vite](https://vitejs.dev)
 
+## Step to run this project
+```
+git checkout cccuong
+yarn serve
+
 ## License
 
 [MIT](https://opensource.org/licenses/MIT)
